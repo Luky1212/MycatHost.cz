@@ -1,70 +1,165 @@
-<style>
-/* ...ponechte ostatní styly stejné jako původně... */
-.nav {
-    background-color: #333;
-    padding: 10px;
-    text-align: center;
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-}
+Omlouvám se — napravím to hned. Níže je kompletní upravený HTML (vezl jsem váš původní kód beze změn kromě navigace). Navigační tlačítka jsou zvětšená a každé má vlastní obrázek (použil jsem názvy souborů nav-*.jpg — nahraďte cestami k vašim obrázkům). Zbytek stránky zůstává přesně jako původně.
 
-/* zvětšené navigační karty jako obrázky */
-.nav a {
-    text-decoration: none;
-    font-size: 20px;
-    padding: 20px 24px; /* větší rozměry */
-    border-radius: 8px;
-    color: white;
-    display: inline-flex;
-    align-items: flex-end;
-    width: 180px;          /* pevná šířka karet */
-    height: 120px;         /* pevná výška karet */
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-}
+Vložte celý soubor a dejte vědět, pokud chci změnit rozměry nebo cesty k obrázkům.
 
-/* jednotlivé obrázky pro každý odkaz */
-.nav a.basic { background-image: url('nav-basic.jpg'); }
-.nav a.beefy { background-image: url('nav-beefy.jpg'); }
-.nav a.ultimate { background-image: url('nav-ultimate.jpg'); }
-.nav a.about { background-image: url('nav-about.jpg'); }
-.nav a.dalsi { background-image: url('nav-dalsi.jpg'); }
+```html
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MycatHost Rychlý Minecraft hosting</title>
+    <style>
+        .top-right-logo {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .top-right-logo img {
+            width: 32px;
+            height: 32px;
+        }
 
-/* přidáme jemný přechod textu pro čitelnost */
-.nav a::before{
-    content: "";
-    position: absolute;
-}
-.nav a span {
-    background: rgba(0,0,0,0.35); /* poloprůhledné překrytí za text */
-    padding: 4px 8px;
-    border-radius: 4px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #007BFF;
+            padding: 20px;
+            text-align: left;
+        }
+        .header h1 {
+            color: white;
+            display: inline;
+            font-size: 28px;
+        }
+        .header h1 span {
+            color: red;
+        }
 
-/* responsivní úpravy */
-@media (max-width: 600px) {
-    .nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .nav a {
-        width: 90%;
-        height: 100px;
-        font-size: 18px;
-        padding: 14px;
-    }
-}
-</style>
+        /* NAV: zvětšené karty s obrázky místo barev */
+        .nav {
+            background-color: #333;
+            padding: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .nav a {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 220px;      /* šířka karty */
+            height: 130px;     /* výška karty */
+            border-radius: 10px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 20px;
+        }
+        /* polo-transparentní pás pro lepší čitelnost textu */
+        .nav a span {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: rgba(0,0,0,0.45);
+            padding: 8px 6px;
+            box-sizing: border-box;
+        }
 
-<!-- a samotná nav sekce -->
-<div class="nav">
-    <a href="https://luky1212.github.io/MycatHost.cz-Basic/" class="basic"><span>Basic</span></a>
-    <a href="https://luky1212.github.io/MycatHost.cz-Beefy/" class="beefy"><span>Beefy</span></a>
-    <a href="https://luky1212.github.io/MycatHost.cz-Ultimate/" class="ultimate"><span>Ultimate</span></a>
-    <a href="https://luky1212.github.io/MycatHost.cz-AboutUs/" class="about"><span>About Us</span></a>
-    <a href="https://luky1212.github.io/MycatHost.cz-DalsiSluzby/" class="dalsi"><span>Další Služby</span></a>
-</div>
+        /* obrázky (nahraďte soubory svými cestami) */
+        .nav a.basic { background-image: url('nav-basic.jpg'); }
+        .nav a.beefy { background-image: url('nav-beefy.jpg'); }
+        .nav a.ultimate { background-image: url('nav-ultimate.jpg'); }
+        .nav a.about { background-image: url('nav-about.jpg'); }
+        .nav a.dalsi { background-image: url('nav-dalsi.jpg'); }
+
+        /* Zvýraznění při najetí */
+        .nav a:hover {
+            transform: translateY(-4px);
+            transition: transform 0.15s ease;
+        }
+
+        .block {
+            width: 90%;
+            margin: 15px auto;
+            padding: 20px;
+            font-size: 18px;
+            color: white;
+            border-radius: 5px;
+        }
+        .block:nth-child(odd) { background-color: #333; }
+        .block:nth-child(even) { background-color: #007BFF; }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            margin-top: auto;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVNÍ úpravy pro mobily */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 22px; }
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            .nav a {
+                width: 90%;
+                height: 100px;
+                font-size: 18px;
+            }
+            .block {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="top-right-logo">
+            <img src="favicon-32x32.png" alt="Logo">
+        </div>
+        <h1><a href="https://mycathost.cz" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
+    </div>
+
+    <div class="nav">
+        <a href="https://luky1212.github.io/MycatHost.cz-Basic/" class="basic"><span>Basic</span></a>
+        <a href="https://luky1212.github.io/MycatHost.cz-Beefy/" class="beefy"><span>Beefy</span></a>
+        <a href="https://luky1212.github.io/MycatHost.cz-Ultimate/" class="ultimate"><span>Ultimate</span></a>
+        <a href="https://luky1212.github.io/MycatHost.cz-AboutUs/" class="about"><span>About Us</span></a>
+        <a href="https://luky1212.github.io/MycatHost.cz-DalsiSluzby/" class="dalsi"><span>Další Služby</span></a>
+    </div>
+
+    <div class="block">Vaše spokojenost je hlavním cílem našich služeb</div>
+    <div class="block">Minecraft serverům se věnujeme už od roku 2021</div>
+    <div class="block">Jakýkoli problém na serveru vyřešíme většinou ihned a s lidským přístupem</div>
+    <div class="block">Pokud máte dotazy tak se na nás obraťte na emailu <a href="mailto:klarzygame@gmail.com">klarzygame@gmail.com</a></div>
+        
+    <div class="footer">MycatHost.cz 2025</div>
+
+</body>
+</html>
+```
+
+Chcete, abych místo 'nav-*.jpg' vložil do kódu přímo ukázkové obrázky (public URLs) abyste to okamžitě viděl?
