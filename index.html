@@ -7,16 +7,16 @@
     <title>MycatHost Rychlý Minecraft hosting</title>
     <style>
         .top-right-logo {
-    position: fixed;   /* logo se „připíchne“ na obrazovku */
-    top: 10px;         /* vzdálenost od horního okraje */
-    right: 10px;       /* vzdálenost od pravého okraje */
-    z-index: 1000;     /* aby nebylo překryté ostatními prvky */
-}
-        
-.top-right-logo img {
-    width: 32px;  /* velikost loga */
-    height: 32px;
-}
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .top-right-logo img {
+            width: 32px;
+            height: 32px;
+        }
 
         body {
             font-family: Arial, sans-serif;
@@ -25,31 +25,36 @@
             background-color: #1a1a1a;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* min-height je lepší než pevná výška */
+            min-height: 100vh;
         }
+
         .header {
             background-color: #007BFF;
             padding: 20px;
             text-align: left;
         }
+
         .header h1 {
             color: white;
             display: inline;
             font-size: 28px;
         }
+
         .header h1 span {
             color: red;
         }
+
         .nav {
             background-color: #333;
             padding: 10px;
             text-align: center;
             margin-top: 10px;
             display: flex;
-            flex-wrap: wrap; /* aby se odkazy zalamovaly */
+            flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
         }
+
         .nav a {
             text-decoration: none;
             font-size: 20px;
@@ -58,21 +63,20 @@
             color: white;
             display: inline-block;
         }
-        .basic { background-color: #0056b3; }
-        .beefy { background-color: #C9A710; }
-        .ultimate { background-color: purple; }
-        .about { background-color: black; color: white; }
-        .dalsi { background-color: black; color: white; }
+
         .block {
             width: 90%;
             margin: 15px auto;
             padding: 20px;
-            font-size: 18px;
-            color: white;
             border-radius: 5px;
+            background-size: cover;
+            background-position: center;
+            height: 200px; /* Increased height for better visibility */
         }
-        .block:nth-child(odd) { background-color: #333; }
-        .block:nth-child(even) { background-color: #007BFF; }
+
+        .block:nth-child(odd) { background-image: url('image1.jpg'); }
+        .block:nth-child(even) { background-image: url('image2.jpg'); }
+
         .footer {
             text-align: center;
             padding: 10px;
@@ -81,23 +85,26 @@
             font-size: 14px;
         }
 
-        /* RESPONSIVNÍ úpravy pro mobily */
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 22px;
             }
+
             .nav {
                 flex-direction: column;
                 gap: 8px;
             }
+
             .nav a {
                 font-size: 16px;
                 padding: 10px;
-                width: 90%; /* odkazy přes celou šířku */
+                width: 90%;
             }
+
             .block {
                 font-size: 16px;
                 padding: 15px;
+                height: 150px; /* Adjusted height for mobile */
             }
         }
     </style>
@@ -105,9 +112,9 @@
 <body>
 
     <div class="header">
-    <div class="top-right-logo">
-    <img src="favicon-32x32.png" alt="Logo">
-</div>
+        <div class="top-right-logo">
+            <img src="favicon-32x32.png" alt="Logo">
+        </div>
         <h1><a href="https://mycathost.cz" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
     </div>
 
@@ -122,16 +129,4 @@
     <div class="block">Vaše spokojenost je hlavním cílem našich služeb</div>
     <div class="block">Minecraft serverům se věnujeme už od roku 2021</div>
     <div class="block">Jakýkoli problém na serveru vyřešíme většinou ihned a s lidským přístupem</div>
-    <div class="block">Pokud máte dotazy tak se na nás obraťte na emailu <a href="mailto:klarzygame@gmail.com">klarzygame@gmail.com</a></div>
-        
-    <div class="footer">MycatHost.cz 2025</div>
-
-</body>
-</html>
-
-
-
-
-
-
-
+    <div class="block">Pokud máte dotazy tak se na nás obraťte
