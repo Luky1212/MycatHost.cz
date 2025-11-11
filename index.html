@@ -1,132 +1,70 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <link rel="icon" type="image/png" href="favicon-32x32.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MycatHost Rychlý Minecraft hosting</title>
-    <style>
-        .top-right-logo {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
+<style>
+/* ...ponechte ostatní styly stejné jako původně... */
+.nav {
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
 
-        .top-right-logo img {
-            width: 32px;
-            height: 32px;
-        }
+/* zvětšené navigační karty jako obrázky */
+.nav a {
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 24px; /* větší rozměry */
+    border-radius: 8px;
+    color: white;
+    display: inline-flex;
+    align-items: flex-end;
+    width: 180px;          /* pevná šířka karet */
+    height: 120px;         /* pevná výška karet */
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+/* jednotlivé obrázky pro každý odkaz */
+.nav a.basic { background-image: url('nav-basic.jpg'); }
+.nav a.beefy { background-image: url('nav-beefy.jpg'); }
+.nav a.ultimate { background-image: url('nav-ultimate.jpg'); }
+.nav a.about { background-image: url('nav-about.jpg'); }
+.nav a.dalsi { background-image: url('nav-dalsi.jpg'); }
 
-        .header {
-            background-color: #007BFF;
-            padding: 20px;
-            text-align: left;
-        }
+/* přidáme jemný přechod textu pro čitelnost */
+.nav a::before{
+    content: "";
+    position: absolute;
+}
+.nav a span {
+    background: rgba(0,0,0,0.35); /* poloprůhledné překrytí za text */
+    padding: 4px 8px;
+    border-radius: 4px;
+}
 
-        .header h1 {
-            color: white;
-            display: inline;
-            font-size: 28px;
-        }
+/* responsivní úpravy */
+@media (max-width: 600px) {
+    .nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .nav a {
+        width: 90%;
+        height: 100px;
+        font-size: 18px;
+        padding: 14px;
+    }
+}
+</style>
 
-        .header h1 span {
-            color: red;
-        }
-
-        .nav {
-            background-color: #333;
-            padding: 10px;
-            text-align: center;
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            font-size: 20px;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            display: inline-block;
-        }
-
-        .block {
-            width: 90%;
-            margin: 15px auto;
-            padding: 20px;
-            border-radius: 5px;
-            background-size: cover;
-            background-position: center;
-            height: 200px; /* Increased height for better visibility */
-        }
-
-        .block:nth-child(odd) { background-image: url('image1.jpg'); }
-        .block:nth-child(even) { background-image: url('image2.jpg'); }
-
-        .footer {
-            text-align: center;
-            padding: 10px;
-            color: white;
-            margin-top: auto;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 22px;
-            }
-
-            .nav {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .nav a {
-                font-size: 16px;
-                padding: 10px;
-                width: 90%;
-            }
-
-            .block {
-                font-size: 16px;
-                padding: 15px;
-                height: 150px; /* Adjusted height for mobile */
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <div class="top-right-logo">
-            <img src="favicon-32x32.png" alt="Logo">
-        </div>
-        <h1><a href="https://mycathost.cz" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
-    </div>
-
-    <div class="nav">
-        <a href="https://luky1212.github.io/MycatHost.cz-Basic/" class="basic">Basic</a>
-        <a href="https://luky1212.github.io/MycatHost.cz-Beefy/" class="beefy">Beefy</a>
-        <a href="https://luky1212.github.io/MycatHost.cz-Ultimate/" class="ultimate">Ultimate</a>
-        <a href="https://luky1212.github.io/MycatHost.cz-AboutUs/" class="about">About Us</a>
-        <a href="https://luky1212.github.io/MycatHost.cz-DalsiSluzby/" class="dalsi">Další Služby</a>
-    </div>
-
-    <div class="block">Vaše spokojenost je hlavním cílem našich služeb</div>
-    <div class="block">Minecraft serverům se věnujeme už od roku 2021</div>
-    <div class="block">Jakýkoli problém na serveru vyřešíme většinou ihned a s lidským přístupem</div>
-    <div class="block">Pokud máte dotazy
+<!-- a samotná nav sekce -->
+<div class="nav">
+    <a href="https://luky1212.github.io/MycatHost.cz-Basic/" class="basic"><span>Basic</span></a>
+    <a href="https://luky1212.github.io/MycatHost.cz-Beefy/" class="beefy"><span>Beefy</span></a>
+    <a href="https://luky1212.github.io/MycatHost.cz-Ultimate/" class="ultimate"><span>Ultimate</span></a>
+    <a href="https://luky1212.github.io/MycatHost.cz-AboutUs/" class="about"><span>About Us</span></a>
+    <a href="https://luky1212.github.io/MycatHost.cz-DalsiSluzby/" class="dalsi"><span>Další Služby</span></a>
+</div>
