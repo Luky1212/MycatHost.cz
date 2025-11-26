@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MycatHost • Repasované počítače</title>
+  <link rel="icon" href="favicon-32x32.png" type="image/png">
+  <meta name="description" content="Kvalitní repasované počítače a notebooky se zárukou. Levné a spolehlivé stroje pro domov i kancelář.">
+  <style>
+    /* Reset & základ */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111214;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* HLAVIČKA */
+    .top-right-logo {
+      position: fixed; top: 10px; right: 10px; z-index: 1000;
+    }
+    .top-right-logo img { width: 32px; height: 32px; display:block; }
+
+    .header {
+      background: linear-gradient(135deg,#007BFF,#003a99);
+      padding: 22px 20px;
+      border-bottom: 3px solid #ff3333;
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .brand {
+      font-size: 28px; color: #fff; text-decoration: none;
+      display:flex; align-items:baseline; gap:8px;
+    }
+    .brand span { color:#ff3333; font-weight:700; margin-left:4px; }
+
+    /* NAVIGATION – stejně jako u ostatních stránek */
+    .nav {
+      background:#2b2b2b;
+      display:flex;
+      gap:12px;
+      padding:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .nav a {
+      color:#fff; text-decoration:none; padding:12px 18px; border-radius:8px;
+      display:inline-block; font-weight:600;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .nav a:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.5); }
+
+    /* HERO */
+    .hero {
+      max-width:1100px;
+      margin:28px auto 16px;
+      padding:28px;
+      background:#161617;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      display:flex;
+      gap:24px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .hero-text { flex:1 1 420px; }
+    .hero h1 { margin:0; font-size:28px; color:#00bfff; }
+    .hero p { margin:10px 0 0; color:#ddd; font-size:16px; line-height:1.5; }
+    .hero-cta { min-width:220px; text-align:center; }
+    .btn {
+      display:inline-block; background:#ff3333; color:white; padding:12px 18px; border-radius:8px;
+      text-decoration:none; font-weight:700; box-shadow:0 8px 18px rgba(255,51,51,0.12);
+    }
+    .btn.secondary { background:#007BFF; }
+
+    /* PRODUKTY */
+    .products {
+      max-width:1100px;
+      margin:22px auto;
+      padding:0 16px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+    }
+    .product {
+      background:#191a1b;
+      padding:18px;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+      text-align:center;
+    }
+    .product h3 { margin:0 0 8px; color:#00bfff; }
+    .product p { margin:8px 0; color:#ccc; }
+    .price-tag {
+      font-size:22px;
+      font-weight:700;
+      color:white;
+      margin:8px 0;
+    }
+
+    /* KONTAKT */
+    .contact {
+      max-width:1100px; margin:28px auto; padding:22px; background:#151617; border-radius:12px;
+      display:flex; gap:20px; flex-wrap:wrap;
+    }
+    .contact form { flex:1 1 360px; }
+    .contact .info { flex:1 1 260px; color:#ccc; }
+
+    input[type=text], input[type=email], textarea {
+      width:100%; padding:10px 12px; margin:8px 0; border-radius:8px; border:1px solid #2b2b2b;
+      background:#0f1011; color:#eee;
+    }
+    textarea { min-height:120px; resize:vertical; }
+    .send-btn { background:#00bfff; color:#051021; padding:12px 16px; font-weight:700; border-radius:8px; border:none; cursor:pointer; }
+
+    /* Footer */
+    .footer {
+      margin-top:auto; background:#0f0f10; padding:14px; text-align:center; color:#bfbfbf; border-top:1px solid #222;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-right-logo"><img src="favicon-32x32.png" alt="logo"></div>
+
+  <!-- HLAVIČKA -->
+  <header class="header">
+    <a class="brand" href="https://mycathost.cz">Mycat<span>Host</span></a>
+  </header>
+
+  <!-- NAV S PROKLIKY (STEJNÉ JAKO NA OSTATNÍCH STRÁNKÁCH) -->
+    <div class="nav">
+        <a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
+        <a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
+        <a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
+        <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
+    </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Repasované počítače a notebooky — levně, kvalitně, se zárukou</h1>
+        <p>Nabízíme pečlivě otestované repasované počítače. Skvělý poměr cena/výkon, ideální na kancelář, domácí použití, výuku nebo lehčí hraní.</p>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#contact">Zeptat se na sklad</a>
+        <div style="height:12px"></div>
+        <a class="btn secondary" href="#products">Zobrazit nabídku</a>
+      </div>
+    </section>
+
+    <!-- PRODUKTY -->
+    <section id="products" class="products">
+
+      <div class="product">
+        <h3>Office PC • Intel i5</h3>
+        <p>8 GB RAM • 256 GB SSD • Windows 10</p>
+        <div class="price-tag">3 499 Kč</div>
+        <a class="btn" href="#contact">Mám zájem</a>
+      </div>
+
+      <div class="product">
+        <h3>Notebook HP EliteBook</h3>
+        <p>i5 • 8 GB RAM • 240 GB SSD • 14”</p>
+        <div class="price-tag">4 299 Kč</div>
+        <a class="btn" href="#contact">Mám zájem</a>
+      </div>
+
+      <div class="product">
+        <h3>Herní základ • i7 + GTX 1050</h3>
+        <p>16 GB RAM • 500 GB SSD</p>
+        <div class="price-tag">6 999 Kč</div>
+        <a class="btn" href="#contact">Mám zájem</a>
+      </div>
+
+      <div class="product">
+        <h3>Kancelář + internet</h3>
+        <p>4 GB RAM • 120 GB SSD • super levný</p>
+        <div class="price-tag">1 999 Kč</div>
+        <a class="btn" href="#contact">Mám zájem</a>
+      </div>
+
+    </section>
+
+    <!-- KONTAKT -->
+    <section id="contact" class="contact">
+      <form onsubmit="return false;">
+        <h3 style="color:#00bfff; margin-top:0;">Dotaz na repasované PC</h3>
+
+        <label for="name">Jméno</label>
+        <input id="name" type="text" placeholder="Vaše jméno">
+
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="email@domena.cz" required>
+
+        <label for="msg">Požadované PC</label>
+        <textarea id="msg" placeholder="Napište nám, o jaký PC máte zájem..."></textarea>
+
+        <button class="send-btn" onclick="sendMail()">Odeslat</button>
+      </form>
+
+      <div class="info">
+        <h3 style="color:#00bfff; margin-top:0;">Kontakt</h3>
+        <p>📍 Velim U koupaliště 232</p>
+        <p>📞 +420 703 350 652</p>
+        <p>✉️ klarzygame@gmail.com</p>
+        <p style="margin-top:8px;">Otevřeno: Po–Pá 9:00–18:00</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">© 2025 MycatHost.cz — Repasované počítače</footer>
+
+  <script>
+    function sendMail(){
+      const name = encodeURIComponent(document.getElementById('name').value);
+      const email = encodeURIComponent(document.getElementById('email').value);
+      const msg = encodeURIComponent(document.getElementById('msg').value);
+
+      window.location.href =
+        `mailto:opravna@mycathost.cz?subject=Repasované PC – zájem&body=Jméno: ${name}%0AEmail: ${email}%0AZpráva: ${msg}`;
+    }
+  </script>
+
+</body>
+</html>
