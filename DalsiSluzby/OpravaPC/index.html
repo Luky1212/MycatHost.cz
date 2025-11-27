@@ -334,9 +334,16 @@
   </main>
 
   <!-- footer -->
-  <footer class="footer" role="contentinfo">
-    © 2025 MycatHost.cz — Oprava počítačů & Notebooků
-  </footer>
+<div class="footer">
+    © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
+    <a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
+    <a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
+    <a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
   <script>
     function sendMail(){
