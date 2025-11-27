@@ -1,110 +1,180 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+    <link rel="icon" type="image/png" href="/favicon-32x32.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podmínky užití | MycatHost.cz</title>
-    <link rel="icon" type="image/png" href="/favicon-32x32.png">
-    <link rel="stylesheet" href="/style.css">
-</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
+        /* Logo */
+        .top-right-logo {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .top-right-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #007BFF;
+            padding: 20px;
+            text-align: left;
+            border-bottom: 3px solid red;
+        }
+        .header h1 {
+            color: white;
+            display: inline;
+            font-size: 28px;
+            margin: 0;
+        }
+        .header h1 span {
+            color: red;
+        }
+
+        /* Navigace */
+        .nav {
+            background-color: #333;
+            padding: 14px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .nav a {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 220px;
+            height: 130px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 20px;
+            transition: transform 0.15s ease;
+        }
+        .nav a span {
+            width: 100%;
+            background: rgba(0,0,0,0.45);
+            padding: 8px;
+            text-align: center;
+        }
+        .nav a:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Obrázky kategorií */
+        .nav a.basic { background-image: url('/img/mc.jpg'); }
+        .nav a.beefy { background-image: url('/img/3d.jpg'); }
+        .nav a.about { background-image: url('/img/about.jpg'); }
+        .nav a.dalsi { background-image: url('/img/other.jpg'); }
+
+        /* Obsah */
+        .content {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #222;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+        .content h2 {
+            color: #00BFFF;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .content h3 {
+            color: #ffcc00;
+            margin-top: 25px;
+        }
+        .content p, .content ul {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+        .content ul {
+            padding-left: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: #ccc;
+            margin-top: auto;
+            font-size: 14px;
+            background: #111;
+        }
+
+    </style>
+</head>
 <body>
 
-<header>
-    <div class="logo">
-        <img src="/favicon-32x32.png" alt="Logo">
-        <h1>MycatHost.cz</h1>
+    <div class="header">
+        <div class="top-right-logo">
+            <img src="/favicon-32x32.png" alt="logo">
+        </div>
+        <h1><a href="/" style="color:white; text-decoration:none;">Mycat<span>Host</span></a></h1>
     </div>
 
-    <nav class="nav-icons">
-        <a href="/"><img src="/img/home.png" alt="Domů"></a>
-        <a href="/opravy/"><img src="/img/repair.png" alt="Opravy PC"></a>
-        <a href="/remote/"><img src="/img/remote.png" alt="Vzdálená pomoc"></a>
-        <a href="/repas/"><img src="/img/pc.png" alt="Repasované PC"></a>
-        <a href="/gdpr.html"><img src="/img/gdpr.png" alt="GDPR"></a>
-        <a href="/terms.html"><img src="/img/terms.png" alt="Podmínky"></a>
-    </nav>
-</header>
+    <div class="nav">
+        <a href="/Minecraft/" class="basic"><span>Minecraft</span></a>
+        <a href="/3dtisk/" class="beefy"><span>3D Tisk</span></a>
+        <a href="/AboutUs/" class="about"><span>O nás</span></a>
+        <a href="/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
+    </div>
 
+    <div class="content">
+        <h2>Podmínky užití služeb MycatHost.cz</h2>
 
-<main>
-<section class="page-section">
+        <p>Tyto podmínky upravují používání webu MycatHost.cz a služeb, které poskytujeme.</p>
 
-    <h2>Podmínky užití služeb</h2>
-    <p>
-        Tyto podmínky upravují používání webu <strong>MycatHost.cz</strong> a služeb, které nabízíme 
-        (oprava počítače, vzdálená pomoc, repasovaná technika).  
-        Používáním webu nebo objednáním služby s těmito podmínkami souhlasíte.
-    </p>
+        <h3>1. Nabízené služby</h3>
+        <ul>
+            <li>oprava a diagnostika počítačů,</li>
+            <li>vzdálená technická pomoc,</li>
+            <li>prodej repasované techniky.</li>
+        </ul>
 
-    <hr>
+        <h3>2. Odpovědnost</h3>
+        <p>Zařízením provádíme profesionální péči, ale neodpovídáme za již vzniklé vady hardware nebo ztrátu dat.</p>
 
-    <h3>1. Poskytované služby</h3>
-    <p>
-        MycatHost.cz nabízí nekomerční, vedlejší služby v oblasti IT – zejména:
-    </p>
-    <ul>
-        <li>opravy a diagnostiku počítačů,</li>
-        <li>vzdálenou technickou pomoc,</li>
-        <li>prodej repasované techniky.</li>
-    </ul>
+        <h3>3. Závaznost objednávky</h3>
+        <p>Objednávka je závazná až po potvrzení obou stran.</p>
 
-    <p>
-        Nabídka služeb není závazná — přijmutí zakázky potvrzujeme individuálně.
-    </p>
+        <h3>4. Ceny</h3>
+        <p>Cena je domluvena předem. Neúčtujeme nic, co si zákazník neobjedná.</p>
 
-    <h3>2. Odpovědnost</h3>
-    <p>
-        Snažíme se poskytovat služby kvalitně a profesionálně.  
-        Přesto nelze garantovat úplnou bezchybnost technických postupů nebo softwarových zásahů.
-    </p>
+        <h3>5. Odstoupení</h3>
+        <p>Odstoupení je možné kdykoli před zahájením práce.</p>
 
-    <ul>
-        <li>Neodpovídáme za škodu způsobenou vadným hardwarem, který byl již poškozen.</li>
-        <li>Neodpovídáme za ztrátu dat — klient by měl provádět vlastní zálohy.</li>
-        <li>U vzdálené pomoci neodpovídáme za zásahy provedené bez našich instrukcí.</li>
-    </ul>
+        <h3>6. Osobní údaje</h3>
+        <p>Zásady ochrany osobních údajů najdete v dokumentu <a href="/DalsiSluzby/GDPR/">GDPR</a>.</p>
 
-    <p>
-        Pokud se vyskytne problém způsobený přímo námi, vždy se snažíme najít rozumné řešení.
-    </p>
+        <h3>7. Kontakt</h3>
+        <p>Máte dotaz? Napište nám: <a href="mailto:email@email">email@email</a></p>
+    </div>
 
-    <h3>3. Podmínky poskytování služeb</h3>
-    <ul>
-        <li>Klient musí poskytnout pravdivé informace o problému či zařízení.</li>
-        <li>Pokud je zařízení v záruce, klient je povinen to sdělit.</li>
-        <li>U vzdálené pomoci je nutné stabilní připojení k internetu.</li>
-    </ul>
-
-    <h3>4. Ceny a platby</h3>
-    <p>
-        Ceny služeb jsou vždy dohodnuty předem.  
-        Platba probíhá po dokončení opravy nebo služby.
-    </p>
-
-    <h3>5. Odstoupení od služby</h3>
-    <p>
-        Klient může kdykoliv odstoupit od objednané služby, dokud práce nezapočne.  
-        Pokud byly už provedeny práce, může být účtována poměrná část ceny.
-    </p>
-
-    <h3>6. Osobní údaje</h3>
-    <p>
-        Zpracování osobních údajů se řídí dokumentem <a href="/gdpr.html">GDPR</a>.
-    </p>
-
-    <h3>7. Kontakt</h3>
-    <p>
-        V případě dotazů nás kontaktujte na e-mailu:  
-        <a href="mailto:email@email">email@email</a>
-    </p>
-
-</section>
-</main>
-
-<footer>
-    <p>© 2025 MycatHost.cz – Podmínky užití</p>
-</footer>
+    <div class="footer">© 2025 MycatHost.cz – Podmínky užití</div>
 
 </body>
 </html>
