@@ -1,91 +1,281 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+    <link rel="icon" type="image/png" href="https://mycathost.cz/favicon-32x32.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GDPR | MycatHost.cz</title>
-    <link rel="icon" type="image/png" href="/favicon-32x32.png">
-    <link rel="stylesheet" href="/style.css">
+    <title>MycatHost.cz – GDPR</title>
+
+    <style>
+        /* --- STEJNÝ STYL JAKO NA HLAVNÍ STRÁNCE --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(160deg, #0e0e0e, #1a1a1a, #121212);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Logo top-right */
+        .top-right-logo {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .top-right-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Hlavička */
+        .header {
+            background: linear-gradient(90deg, #007BFF, #0051b8);
+            padding: 22px;
+            text-align: left;
+            border-bottom: 3px solid red;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .header h1 {
+            color: white;
+            display: inline;
+            font-size: 32px;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .header h1 span {
+            color: #ff3b3b;
+        }
+
+        /* Navigace (obrázkové karty) */
+        .nav {
+            background-color: #222;
+            padding: 18px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .nav a {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 240px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            font-size: 22px;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .nav a:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+        }
+        .nav a span {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: rgba(0,0,0,0.55);
+            padding: 10px 8px;
+            font-weight: bold;
+        }
+
+        .nav a.basic { background-image: url('https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg'); }
+        .nav a.beefy { background-image: url('https://s1.raise3d.com/2024/11/7-min.jpg'); }
+        .nav a.about { background-image: url('https://iregister.al/wp-content/uploads/2019/04/server-hosting.jpeg'); }
+        .nav a.dalsi { background-image: url('https://thumbs.dreamstime.com/b/man-fix-server-network-data-center-room-67131350.jpg'); }
+
+        /* Hlavní obsah box (stejné jako u ostatních stránek) */
+        .content {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #222;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+        }
+        .content h2 {
+            color: #4db8ff;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .content p {
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .content h3 {
+            color: #00bfff;
+            margin-top: 20px;
+            margin-bottom: 6px;
+        }
+        .content ul {
+            color: #ccc;
+            margin-left: 18px;
+            line-height: 1.6;
+        }
+        .note {
+            display: inline-block;
+            background: rgba(77,184,255,0.08);
+            color: #bfe9ff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 14px;
+            color: #ccc;
+            margin-top: auto;
+            font-size: 14px;
+            background: #111;
+            border-top: 1px solid #222;
+        }
+
+        /* Responsivní */
+        @media (max-width: 700px) {
+            .nav a { width: 90%; height: 110px; font-size: 18px; }
+            .content { width: 92%; margin: 20px auto; padding: 20px; }
+            .header h1 { font-size: 26px; }
+        }
+
+        /* GDPR specifické drobné úpravy */
+        .gdpr-section { margin-top: 8px; }
+        .gdpr-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        .gdpr-table th, .gdpr-table td { text-align: left; padding: 8px; color: #ddd; border-bottom: 1px solid #2b2b2b; }
+        .gdpr-actions { margin-top: 16px; display:flex; gap:10px; flex-wrap:wrap; }
+        .btn {
+            background: linear-gradient(90deg,#4db8ff,#00bfff);
+            color: #02141a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 6px 18px rgba(13,116,171,0.18);
+        }
+        .btn.ghost { background: transparent; color: #bfe9ff; border: 1px solid rgba(190,233,255,0.08); box-shadow: none; }
+    </style>
 </head>
 
 <body>
-<header>
-    <div class="logo">
-        <img src="/favicon-32x32.png" alt="logo">
-        <h1>MycatHost.cz</h1>
+
+    <div class="header">
+        <div class="top-right-logo">
+            <img src="https://mycathost.cz/favicon-32x32.png" alt="Logo">
+        </div>
+        <h1><a href="/" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
     </div>
 
-    <nav class="nav-icons">
-        <a href="/"><img src="/img/home.png" alt="Domů"></a>
-        <a href="/opravy/"><img src="/img/repair.png" alt="Opravy PC"></a>
-        <a href="/remote/"><img src="/img/remote.png" alt="Vzdálená pomoc"></a>
-        <a href="/repas/"><img src="/img/pc.png" alt="Repasované PC"></a>
-        <a href="/gdpr.html"><img src="/img/gdpr.png" alt="GDPR"></a>
-    </nav>
-</header>
+    <div class="nav">
+        <a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
+        <a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
+        <a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
+        <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
+    </div>
 
-<main>
-<section class="page-section">
-    <h2>GDPR – Zásady ochrany osobních údajů</h2>
+    <div class="content">
+        <h2>GDPR &amp; zpracování osobních údajů</h2>
 
-    <p>
-        Ochrana vašich osobních údajů je pro nás důležitá.  
-        Web <strong>MycatHost.cz</strong> zpracovává pouze taková data, která nám sami poskytnete při komunikaci.
-    </p>
+        <p>
+            Tento dokument popisuje, jak <strong>MycatHost.cz</strong> (správce) zpracovává osobní údaje v souladu s
+            nařízením EU 2016/679 (GDPR). Stránky používají pouze nezbytné technické cookies; žádné analytické ani marketingové
+            služby neshromažďují data pro profilování.
+        </p>
 
-    <h3>1. Správce osobních údajů</h3>
-    <p>
-        Správcem osobních údajů je provozovatel webu MycatHost.cz – soukromá fyzická osoba.
-    </p>
+        <h3 class="gdpr-section">Správce údajů</h3>
+        <p>
+            MycatHost.cz<br>
+            Kontakt: <a href="mailto:klarzygame@gmail.com" style="color:#4db8ff;">klarzygame@gmail.com</a>
+        </p>
 
-    <h3>2. Jaké údaje zpracováváme?</h3>
-    <p>Zpracováváme pouze údaje, které nám sami odešlete:</p>
-    <ul>
-        <li>emailová komunikace,</li>
-        <li>jméno (pokud jej uvedete),</li>
-        <li>informace o zařízení nebo problému (pokud popíšete).</li>
-    </ul>
+        <h3 class="gdpr-section">Účely zpracování a právní důvody</h3>
+        <table class="gdpr-table" aria-label="Tabulka zpracování">
+            <thead>
+                <tr><th>Účel</th><th>Údaje</th><th>Právní důvod</th><th>Doba uchování</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Provoz webu</td>
+                    <td>IP (anonymizováno), technické cookies, session</td>
+                    <td>Legitimní zájem</td>
+                    <td>Do 30 dnů (logy) / session</td>
+                </tr>
+                <tr>
+                    <td>Kontaktní formulář / e‑mail</td>
+                    <td>Jméno, e‑mail, zpráva</td>
+                    <td>Souhlas / plnění smlouvy</td>
+                    <td>Do 3 let nebo dle doby nezbytné pro komunikaci</td>
+                </tr>
+                <tr>
+                    <td>Fakturace / služby</td>
+                    <td>Kontaktní a platební údaje</td>
+                    <td>Plnění smlouvy</td>
+                    <td>Podle účetních předpisů (obvykle 10 let)</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <p><strong>Web nesbírá automaticky žádná osobní data.</strong>  
-    Nepoužíváme Google Analytics, marketingové cookies ani sledovací prvky.</p>
+        <h3 class="gdpr-section">Práva subjektu údajů</h3>
+        <ul>
+            <li>Právo na přístup k údajům</li>
+            <li>Právo na opravu</li>
+            <li>Právo na výmaz („být zapomenut“), pokud nebrání zákonným povinnostem</li>
+            <li>Právo na omezení zpracování</li>
+            <li>Právo na přenositelnost údajů</li>
+            <li>Právo vznést námitku proti zpracování založenému na oprávněném zájmu</li>
+        </ul>
 
-    <h3>3. Důvod zpracování</h3>
-    <p>Vaše údaje zpracováváme pouze za účelem:</p>
-    <ul>
-        <li>odpovědi na váš dotaz,</li>
-        <li>domluvy servisu,</li>
-        <li>poskytnutí požadované služby.</li>
-    </ul>
+        <h3 class="gdpr-section">Předávání třetím stranám</h3>
+        <p>
+            Data jsou sdílena jen s nezbytnými poskytovateli služeb (hosting, e‑mail). Pokud jsou data zasílána mimo EU/EEA,
+            zajišťujeme vhodná záruky (standardní smluvní doložky apod.).
+        </p>
 
-    <h3>4. Jak dlouho údaje uchováváme?</h3>
-    <p>
-        Emailová komunikace může být uchována kvůli vyřešení problému nebo záruční podpoře.  
-        Lze kdykoliv požádat o smazání.
-    </p>
+        <h3 class="gdpr-section">Bezpečnost</h3>
+        <p>
+            Používáme technická a organizační opatření (HTTPS, omezení přístupu, pravidelné zálohy) k zajištění bezpečnosti dat.
+        </p>
 
-    <h3>5. Předávání údajů třetím stranám</h3>
-    <p>
-        Údaje nikomu nepředáváme.  
-        Výjimkou je technický provozovatel emailových schránek (např. Gmail).
-    </p>
+        <h3 class="gdpr-section">Změny v dokumentu</h3>
+        <p>
+            Tuto zásadu můžeme aktualizovat. Datum poslední úpravy: <strong>27.11.2025</strong>.
+        </p>
 
-    <h3>6. Vaše práva</h3>
-    <ul>
-        <li>právo na výmaz,</li>
-        <li>právo na opravu,</li>
-        <li>právo na přístup k údajům,</li>
-        <li>právo podat stížnost ÚOOÚ.</li>
-    </ul>
+        <div class="note">Shrnutí: MycatHost.cz zpracovává pouze nezbytná data. Pro dotazy použijte e‑mail výše.</div>
 
-    <h3>7. Kontakt</h3>
-    <p>E-mail: <a href="mailto:email@email">email@email</a></p>
+        <div class="gdpr-actions">
+            <a class="btn" href="mailto:klarzygame@gmail.com">Kontaktovat správce</a>
+            <a class="btn ghost" href="/">Zpět na hlavní</a>
+        </div>
+    </div>
 
-</section>
-</main>
+     <div class="footer">
+    © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
+    <a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
+    <a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
+    <a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
+</div>
 
-<footer>
-    <p>© 2025 MycatHost.cz – Ochrana osobních údajů</p>
-</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
