@@ -170,6 +170,15 @@
         <p>Cena tisku se odvíjí od hmotnosti materiálu a složitosti modelu. Přibližně od <b>3 Kč za gram materiálu</b>.</p>
     </div>
 
-    <div class="footer">© 2025 MycatHost.cz — 3D tisk & Minecraft hosting</div>
+    <div class="footer">
+    © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
+    <a href="CopyRight/Terms/index.html">Podmínky</a> •
+    <a href="CopyRight/GDPR/index.html">GDPR</a> •
+    <a href="CopyRight/Cookies/index.html">Cookies</a>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
