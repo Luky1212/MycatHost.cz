@@ -8,50 +8,62 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background: #e9e9e9;
         }
+
         header {
-            background: #1a1a1a;
-            padding: 15px;
+            background: #0d0d0d;
             color: white;
+            padding: 15px 25px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
         }
-        header .logo {
-            font-size: 20px;
+
+        .logo {
+            font-size: 22px;
             font-weight: bold;
         }
+
         nav a {
             color: white;
-            margin-left: 15px;
+            margin-left: 20px;
             text-decoration: none;
             font-weight: bold;
         }
-        .content-box {
+
+        .container {
             max-width: 900px;
             margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            padding: 0 20px;
         }
+
+        .box {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
         h1 {
             margin-top: 0;
-            color: #222;
+            font-size: 28px;
         }
+
         h2 {
-            color: #444;
             margin-top: 30px;
         }
+
         footer {
-            background: #1a1a1a;
-            color: #999;
+            background: #0d0d0d;
+            color: #aaa;
+            padding: 20px;
             text-align: center;
-            padding: 15px;
-            margin-top: 60px;
+            margin-top: 40px;
         }
     </style>
 </head>
@@ -63,46 +75,39 @@
         <a href="/">Domů</a>
         <a href="/opravy">Opravy PC</a>
         <a href="/remote">Vzdálená pomoc</a>
-        <a href="/repas">Repasovaná PC</a>
+        <a href="/repas">Repasované PC</a>
         <a href="/cookies">Cookies</a>
         <a href="/terms">Podmínky</a>
     </nav>
 </header>
 
-<div class="content-box">
-    <h1>Informace o souborech Cookies</h1>
+<div class="container">
+    <div class="box">
+        <h1>Informace o Cookies</h1>
+        <p>
+            Web MycatHost.cz používá pouze **nezbytné technické cookies**, které zajišťují bezpečný a stabilní provoz webu.
+            Nepoužíváme žádná marketingová, reklamní ani analytická cookies.
+        </p>
 
-    <p>
-        Na webu MycatHost.cz používáme pouze **nezbytné cookies**, které slouží k bezpečnému provozu webu.
-        Nepoužíváme žádné sledovací cookies, žádné marketingové nástroje ani analytiku typu Google Analytics.
-    </p>
+        <h2>Co jsou cookies</h2>
+        <p>
+            Cookies jsou malé soubory uložené ve vašem prohlížeči. Pomáhají webu správně fungovat – například udržet bezpečné připojení.
+        </p>
 
-    <h2>Co jsou Cookies</h2>
-    <p>
-        Cookies jsou malé textové soubory, které se ukládají ve vašem prohlížeči, aby web fungoval spolehlivě a bezpečně.
-    </p>
+        <h2>Jaké cookies používáme</h2>
+        <ul>
+            <li><strong>Technické cookies (nutné)</strong>  
+                – bez nich web nefunguje (načítání stylů, obrázků, bezpečné spojení).</li>
+            <li><strong>ŽÁDNÉ analytické cookies</strong> – nepoužíváme Google Analytics.</li>
+            <li><strong>ŽÁDNÉ marketingové cookies</strong> – nic nesledujeme.</li>
+        </ul>
 
-    <h2>Jaké Cookies používáme</h2>
-
-    <ul>
-        <li><strong>Technické / nezbytné cookies</strong> – umožňují načtení webu, bezpečný přenos dat a správné fungování stránek.  
-        Bez nich by web nemohl fungovat.</li>
-
-        <li><strong>Žádné marketingové cookies</strong> – nesledujeme vás, nesbíráme žádná data o chování.</li>
-
-        <li><strong>Žádné analytické cookies</strong> – nepoužíváme Google Analytics ani jiné statistiky.</li>
-    </ul>
-
-    <h2>Správa Cookies</h2>
-    <p>
-        Váš prohlížeč umožňuje cookies mazat nebo blokovat. Pokud technické cookies zakážete,
-        některé části webu nemusí fungovat správně.
-    </p>
-
-    <h2>Osobní údaje</h2>
-    <p>
-        Z cookies nesbíráme žádné osobní údaje a neprovádíme žádný marketing, profilování ani sledování.
-    </p>
+        <h2>Správa cookies</h2>
+        <p>
+            Cookies můžete mazat nebo blokovat přímo ve svém prohlížeči.  
+            Zakázání nezbytných cookies může způsobit, že web nebude fungovat správně.
+        </p>
+    </div>
 </div>
 
 <footer>
