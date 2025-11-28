@@ -1,182 +1,184 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <link rel="icon" type="image/png" href="favicon-32x32.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MycatHost • Tvorba webu</title>
+<link rel="icon" type="image/png" href="favicon-32x32.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MycatHost • Tvorba webu</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #111214;
-            font-family: Arial, sans-serif;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+<style>
+body {
+margin: 0;
+padding: 0;
+background: #111214;
+font-family: Arial, sans-serif;
+color: white;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
 
-        .top-right-logo {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
-        .top-right-logo img { width: 32px; height: 32px; }
+.top-right-logo {
+position: fixed;
+top: 10px;
+right: 10px;
+z-index: 1000;
+}
+.top-right-logo img { width: 32px; height: 32px; }
 
-        .header {
-            background: linear-gradient(135deg,#007BFF,#003a99);
-            padding: 22px 20px;
-            border-bottom: 3px solid #ff3333;
-            display:flex;
-            align-items:center;
-            gap:18px;
-        }
-        .header a {
-            color: white;
-            font-size: 28px;
-            text-decoration: none;
-        }
-        .header span { color: red; }
+.header {
+background: linear-gradient(135deg,#007BFF,#003a99);
+padding: 22px 20px;
+border-bottom: 3px solid #ff3333;
+display:flex;
+align-items:center;
+gap:18px;
+}
+.header a {
+color: white;
+font-size: 28px;
+text-decoration: none;
+}
+.header span { color: red; }
 
-        /* NAV KARTY */
-        .nav {
-            background-color: #333;
-            padding: 14px;
-            text-align: center;
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 14px;
-        }
-        .nav a {
-            position: relative;
-            text-decoration: none;
-            color: white;
-            display: inline-flex;
-            align-items: flex-end;
-            justify-content: center;
-            width: 220px;
-            height: 130px;
-            border-radius: 10px;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            font-size: 20px;
-        }
-        .nav a span {
-            width: 100%;
-            text-align: center;
-            background: rgba(0,0,0,0.45);
-            padding: 8px 6px;
-        }
+/* NAV KARTY */
+.nav {
+background-color: #333;
+padding: 14px;
+text-align: center;
+margin-top: 10px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 14px;
+}
+.nav a {
+position: relative;
+text-decoration: none;
+color: white;
+display: inline-flex;
+align-items: flex-end;
+justify-content: center;
+width: 220px;
+height: 130px;
+border-radius: 10px;
+overflow: hidden;
+background-size: cover;
+background-position: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+font-size: 20px;
+}
+.nav a span {
+width: 100%;
+text-align: center;
+background: rgba(0,0,0,0.45);
+padding: 8px 6px;
+}
 
-        .nav a.basic {
-            background-image: url('https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg'); }
-        }
-        .nav a.beefy {
-            background-image: url('https://s1.raise3d.com/2024/11/7-min.jpg');
-        }
-        .nav a.about {
-            background-image: url('https://iregister.al/wp-content/uploads/2019/04/server-hosting.jpeg');
-        }
-        .nav a.dalsi {
-            background-image: url('https://thumbs.dreamstime.com/b/man-fix-server-network-data-center-room-67131350.jpg');
-        }
+.nav a.basic {
+background-image: url('https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg'); }
+}
+.nav a.beefy {
+background-image: url('https://s1.raise3d.com/2024/11/7-min.jpg');
+}
+.nav a.about {
+background-image: url('https://iregister.al/wp-content/uploads/2019/04/server-hosting.jpeg');
+}
+.nav a.dalsi {
+background-image: url('https://thumbs.dreamstime.com/b/man-fix-server-network-data-center-room-67131350.jpg');
+}
 
-        .nav a:hover { transform: translateY(-4px); }
+.nav a:hover { transform: translateY(-4px); }
 
-        /* Obsahové bloky */
-        .block {
-            width: 90%;
-            margin: 15px auto;
-            padding: 20px;
-            font-size: 18px;
-            border-radius: 5px;
-        }
-        .block:nth-child(odd) { background-color: #222; }
-        .block:nth-child(even) { background-color: #007BFF; }
+/* Obsahové bloky */
+.block {
+width: 90%;
+margin: 15px auto;
+padding: 20px;
+font-size: 18px;
+border-radius: 5px;
+}
+.block:nth-child(odd) { background-color: #222; }
+.block:nth-child(even) { background-color: #007BFF; }
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            color: #bbb;
-            margin-top: auto;
-            background:#0f0f10;
-            border-top:1px solid #222;
-        }
+.footer {
+text-align: center;
+padding: 10px;
+color: #bbb;
+margin-top: auto;
+background:#0f0f10;
+border-top:1px solid #222;
+}
 
-        /* RESPONSIVNÍ MO
+/* RESPONSIVNÍ MO
 BILY */
-        @media (max-width: 600px) {
-            .nav { flex-direction: column; }
-            .nav a { width: 90%; height: 100px; }
-            .block { font-size: 16px; padding: 15px; }
-        }
-    </style>
+@media (max-width: 600px) {
+.nav { flex-direction: column; }
+.nav a { width: 90%; height: 100px; }
+.block { font-size: 16px; padding: 15px; }
+}
+</style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="top-right-logo">
-            <img src="favicon-32x32.png" alt="Logo">
-        </div>
+<div class="top-right-logo"><img src="favicon-32x32.png" alt="logo"></div>
 
-    <!-- NAV BAR -->
-    <div class="nav">
-        <a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
-        <a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
-        <a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
-        <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
-    </div>
+<div class="header">
+<a href="https://mycathost.cz">Mycat<span>Host</span></a>
+</div>
 
-    <!-- OBSAH STRÁNKY -->
-    <div class="block">
-        <h2>Tvorba webových stránek</h2>
-        <p>Nabízíme kvalitní a rychlou tvorbu webů pro domácí projekty, soukromé osoby, služby i osobní projekty. Vše v moderním designu, stejně jako tento web — čisté, rychlé a responzivní.</p>
-    </div>
+<!-- NAV BAR -->
+<div class="nav">
+<a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
+<a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
+<a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
+<a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
+</div>
 
-    <div class="block">
-        <h2>Co nabízíme?</h2>
-        <ul>
-            <li>🔥 Tvorba moderního webu na míru</li>
-            <li>⚡ Extrémně rychlé načítání</li>
-            <li>📱 Mobilní verze — perfektní na telefonech</li>
-            <li>🔍 SEO optimalizace pro Google</li>
-            <li>🖼 Vlastní grafika, bannery, logo</li>
-            <li>🔧 Snadná správa a úpravy</li>
-        </ul>
-    </div>
+<!-- OBSAH STRÁNKY -->
+<div class="block">
+<h2>Tvorba webových stránek</h2>
+<p>Nabízíme kvalitní a rychlou tvorbu webů pro domácí projekty, soukromé osoby, služby i osobní projekty. Vše v moderním designu, stejně jako tento web — čisté, rychlé a responzivní.</p>
+</div>
 
-    <div class="block">
-        <h2>Kolik to stojí?</h2>
-        <p>Ceny jsou individuální podle typu webu. Například:</p>
-        <ul>
-            <li>Jednoduchý prezentační web – **od 299 Kč**</li>
-            <li>Web s více stránkami (2-5) – **od 499 Kč**</li>
-            <li>Kompletní web (Copyright, max. 30 stránek) – **od 699 Kč**</li>
-        </ul>
-    </div>
+<div class="block">
+<h2>Co nabízíme?</h2>
+<ul>
+<li>🔥 Tvorba moderního webu na míru</li>
+<li>⚡ Extrémně rychlé načítání</li>
+<li>📱 Mobilní verze — perfektní na telefonech</li>
+<li>🔍 SEO optimalizace pro Google</li>
+<li>🖼 Vlastní grafika, bannery, logo</li>
+<li>🔧 Snadná správa a úpravy</li>
+</ul>
+</div>
 
-    <div class="block">
-        <h2>Chci vytvořit web</h2>
-        <p>Napište nám a společně vytvoříme web, který bude přesně podle vašich předtav. Když nám pošlete obrázek jak by jste si to představovali bude to rychlejší.</p>
+<div class="block">
+<h2>Kolik to stojí?</h2>
+<p>Ceny jsou individuální podle typu webu. Například:</p>
+<ul>
+<li>Jednoduchý prezentační web – **od 299 Kč**</li>
+<li>Web s více stránkami (2-5) – **od 499 Kč**</li>
+<li>Kompletní web (Copyright, max. 30 stránek) – **od 699 Kč**</li>
+</ul>
+</div>
+
+<div class="block">
+<h2>Chci vytvořit web</h2>
+<p>Napište nám a společně vytvoříme web, který bude přesně podle vašich předtav. Když nám pošlete obrázek jak by jste si to představovali bude to rychlejší.</p>
+        <a href="mailto:opravna@mycathost.cz" style="color:white; font-weight:bold;">📩 Kontaktovat</a>
         <a href="mailto:klarzygame@gmail.com" style="color:white; font-weight:bold;">📩 Kontaktovat</a>
-    </div>
+</div>
 
-        <div class="footer">
-    © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
-    <a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
-    <a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
-    <a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
+<div class="footer">
+© <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
+<a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
+<a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
+<a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
 </div>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
