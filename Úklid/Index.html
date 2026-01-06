@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Služba – úklid</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            transition: background-color 0.5s ease;
+        }
+
+        .box {
+            font-size: 3rem;
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .box {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="box" id="content">
+    Načítání…
+</div>
+
+<script>
+    // 🔁 NASTAV SI JMÉNA ZDE
+    const sluzby = [
+        { jmeno: "Lukáš", barva: "#c62828" },   // červená
+        { jmeno: "Jirka", barva: "#1565c0" },  // modrá
+        { jmeno: "Ondřej", barva: "#2e7d32" }    // zelená
+    ];
+
+    // 📅 STARTOVNÍ DEN ROTACE (změň dle potřeby)
+    // od tohoto dne se začne střídat
+    const startDate = new Date("2025-01-01");
+
+    function aktualizujSluzbu() {
+        const dnes = new Date();
+
+        // rozdíl dní
+        const rozdilDni = Math.floor(
+            (dnes - startDate) / (1000 * 60 * 60 * 24)
+        );
+
+        const index = ((rozdilDni % sluzby.length) + sluzby.length) % sluzby.length;
+        const dnesni = sluzby[index];
+
+        document.body.style.backgroundColor = dnesni.barva;
+        document.getElementById("content").innerHTML =
+            `Dnes má službu:<br><strong>${dnesni.jmeno}</strong>`;
+    }
+
+    aktualizujSluzbu();
+
+    // 🔄 kontrola každou minutu (kvůli půlnoci)
+    setInterval(aktualizujSluzbu, 60000);
+</script>
+
+</body>
+</html>
