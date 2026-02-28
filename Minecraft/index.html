@@ -188,7 +188,7 @@
 
         <form id="serverForm">
 
-             <select id="game platform">
+             <select id="game edition">
                 <option selected disabled>Edice</option>
                 <option>Bedrock</option>
                 <option>Java</option>
@@ -253,20 +253,21 @@
 
     <script>
         function sendEmail() {
+            const edition = document.getElementById("edition").value;
             const game = document.getElementById("game").value;
             const ram = document.getElementById("ram").value;
             const players = document.getElementById("players").value;
             const mods = document.getElementById("mods").value;
 
-            if (!game || !ram || !players || !mods ||
-                game.includes("Vyberte") || ram.includes("Vyberte") || players.includes("Vyberte") || mods.includes("Vyberte")) {
+            if (!edition || !game || !ram || !players || !mods ||
+                edition.includes("Vyberte") || game.includes("Vyberte") || ram.includes("Vyberte") || players.includes("Vyberte") || mods.includes("Vyberte")) {
                 alert("⚠️ Vyplňte prosím všechny položky.");
                 return;
             }
 
             const subject = encodeURIComponent("Nová konfigurace serveru");
             const body = encodeURIComponent(
-                `Zákazník vybral následující konfiguraci:\n\nVerze: ${game}\nRAM: ${ram}\nPočet hráčů: ${players}\nModifikace: ${mods}`
+                `Zákazník vybral následující konfiguraci:\n\nEdice: ${edition}\nVerze: ${game}\nRAM: ${ram}\nPočet hráčů: ${players}\nModifikace: ${mods}`
             );
             const mailtoLink = `mailto:klarzygame@gmail.com?subject=${subject}&body=${body}`;
             window.location.href = mailtoLink;
