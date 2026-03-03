@@ -17,7 +17,6 @@
             min-height: 100vh;
         }
 
-        /* Horní lišta */
         .top-right-logo {
             position: fixed;
             top: 10px;
@@ -44,7 +43,6 @@
             color: red;
         }
 
-        /* Navigace */
         .nav {
             background-color: #333;
             padding: 14px;
@@ -82,13 +80,11 @@
             transition: transform 0.15s ease;
         }
 
-        /* Obrázky tlačítek */
         .nav a.basic { background-image: url('https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg'); }
-        .nav a.beefy { background-image: url('https://s1.raise3d.com/2024/11/7-min.jpg'); }
+        .nav a.beefy { background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fres.cloudinary.com%2Funitedprint-com-se%2Fimage%2Fupload%2Fc_fill%2Cf_auto%2Ch_482%2Cw_700%2Fv1%2Fmaster%2F002-0_Teaser-Dummy_cpkpfp&f=1&nofb=1&ipt=cdcc90edf3b77f606f8ef9d56a052437978f6374535b935298c8ff76df7f20a6'); }
         .nav a.about { background-image: url('https://iregister.al/wp-content/uploads/2019/04/server-hosting.jpeg'); }
         .nav a.dalsi { background-image: url('https://thumbs.dreamstime.com/b/man-fix-server-network-data-center-room-67131350.jpg'); }
 
-        /* Obsah */
         .content {
             max-width: 1000px;
             margin: 30px auto;
@@ -109,7 +105,6 @@
             margin-bottom: 15px;
         }
 
-        /* Formulář */
         form {
             background-color: #1e1e1e;
             padding: 25px;
@@ -140,14 +135,7 @@
         form button:hover {
             background-color: #0056b3;
         }
-        .form-note {
-            text-align: center;
-            color: #bbb;
-            font-size: 14px;
-            margin-top: 10px;
-        }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 10px;
@@ -156,115 +144,140 @@
             font-size: 14px;
             background: #111;
         }
-
-        @media (max-width: 600px) {
-            .nav { flex-direction: column; }
-            .nav a { width: 90%; height: 100px; }
-            .content { width: 90%; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="top-right-logo">
-            <img src="favicon-32x32.png" alt="Logo">
+<div class="header">
+    <div class="top-right-logo">
+        <img src="favicon-32x32.png" alt="Logo">
+    </div>
+    <h1><a href="https://mycathost.cz" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
+</div>
+
+<div class="nav">
+    <a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
+    <a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
+    <a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
+    <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
+</div>
+
+<div class="content">
+    <h2>Minecraft Hosting na míru</h2>
+    <p>U nás si můžete jednoduše vybrat konfiguraci Minecraft serveru podle vašich potřeb.</p>
+
+    <form id="serverForm">
+
+        <select id="game">
+            <option selected disabled>Vyberte verzi Minecraftu</option>
+            <option>1.21</option>
+            <option>1.20</option>
+            <option>1.19</option>
+        </select>
+
+        <select id="ram">
+            <option selected disabled>Vyberte RAM</option>
+            <option>2 GB</option>
+            <option>4 GB</option>
+            <option>6 GB</option>
+            <option>8 GB</option>
+            <option>10 GB</option>
+            <option>12 GB</option>
+            <option>14 GB</option>
+            <option>16 GB</option>
+        </select>
+
+        <select id="players">
+            <option selected disabled>Počet hráčů</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>40</option>
+        </select>
+
+        <select id="mods">
+            <option selected disabled>Modifikace</option>
+            <option>Ne</option>
+            <option>Ano</option>
+        </select>
+
+        <button type="button" onclick="sendEmail()">Odeslat konfiguraci</button>
+
+        <!-- ZOBRAZENÍ CENY -->
+        <div id="priceDisplay" style="margin-top:10px; font-size:20px; font-weight:bold; color:#00BFFF; display:none;">
+            Cena / měsíc: 0 Kč
         </div>
-        <h1><a href="https://mycathost.cz" style="color: white; text-decoration: none;">Mycat<span>Host</span></a></h1>
-    </div>
 
-
-    <div class="nav">
-        <a href="https://mycathost.cz/Minecraft/" class="basic"><span>Minecraft</span></a>
-        <a href="https://mycathost.cz/3dtisk/" class="beefy"><span>3D Tisk</span></a>
-        <a href="https://mycathost.cz/AboutUs/" class="about"><span>O nás</span></a>
-        <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi"><span>Další služby</span></a>
-    </div>
-
-    <div class="content">
-        <h2>Minecraft Hosting na míru</h2>
-        <p>U nás si můžete jednoduše vybrat konfiguraci Minecraft serveru podle vašich potřeb. Rychlé SSD, nízký ping a bezlagový provoz — ideální pro malé i větší komunity.</p>
-        <p>Vyberte si verzi, množství RAM, počet hráčů a zda chcete server s modifikacemi.</p>
-
-        <form id="serverForm">
-            <select id="game">
-                <option selected disabled>Vyberte verzi Minecraftu</option>
-                <option>1.21 (Nejnovější)</option>
-                <option>1.20</option>
-                <option>1.19</option>
-                <option>1.18</option>
-                <option>1.17</option>
-                <option>1.16</option>
-                <option>1.15</option>
-                <option>1.14</option>
-                <option>1.13</option>
-                <option>1.12</option>
-                <option>1.11</option>
-                <option>1.10</option>
-                <option>1.9</option>
-                <option>1.8</option>
-                <option>1.7</option>
-            </select>
-
-            <select id="ram">
-                <option selected disabled>Vyberte RAM</option>
-                <option>2 GB</option>
-                <option>4 GB</option>
-                <option>8 GB</option>
-                <option>16 GB</option>
-            </select>
-
-            <select id="players">
-                <option selected disabled>Počet hráčů</option>
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
-                <option>40</option>
-            </select>
-
-            <select id="mods">
-                <option selected disabled>Modifikace</option>
-                <option>Ne</option>
-                <option>Ano</option>
-            </select>
-
-            <button type="button" onclick="sendEmail()">Odeslat konfiguraci</button>
-            <div class="form-note">Pokud tlačítko nefunguje, napište nám na <b>klarzygame@gmail.com</b></div>
-        </form>
-    </div>
+    </form>
+</div>
 
 <div class="footer">
-    © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
-    <a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
-    <a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
-    <a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
+    © <span id="year"></span> MycatHost.cz
 </div>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const ramSelect = document.getElementById("ram");
+const playersSelect = document.getElementById("players");
+const modsSelect = document.getElementById("mods");
+const priceDisplay = document.getElementById("priceDisplay");
+
+function calculatePrice() {
+
+    if (!ramSelect.value || !playersSelect.value || !modsSelect.value ||
+        ramSelect.value.includes("Vyberte") ||
+        playersSelect.value.includes("Vyberte") ||
+        modsSelect.value.includes("Vyberte")) {
+        priceDisplay.style.display = "none";
+        return;
+    }
+
+    const ram = parseInt(ramSelect.value);
+    let price = 35 + ((ram - 2) / 2) * 5;
+
+    const players = parseInt(playersSelect.value);
+    if (players === 5 || players === 10) price += 5;
+    else if (players > 10) price += 10;
+
+    if (modsSelect.value === "Ano") price += 5;
+
+    priceDisplay.textContent = "Cena / měsíc: " + price + " Kč";
+    priceDisplay.style.display = "block";
+}
+
+ramSelect.addEventListener("change", calculatePrice);
+playersSelect.addEventListener("change", calculatePrice);
+modsSelect.addEventListener("change", calculatePrice);
+
+function sendEmail() {
+
+    const game = document.getElementById("game").value;
+    const ram = ramSelect.value;
+    const players = playersSelect.value;
+    const mods = modsSelect.value;
+
+    if (!game || !ram || !players || !mods ||
+        game.includes("Vyberte") || ram.includes("Vyberte") ||
+        players.includes("Vyberte") || mods.includes("Vyberte")) {
+        alert("⚠️ Vyplňte prosím všechny položky.");
+        return;
+    }
+
+    calculatePrice();
+
+    const subject = encodeURIComponent("Nová konfigurace serveru");
+    const body = encodeURIComponent(
+        `Verze: ${game}
+RAM: ${ram}
+Počet hráčů: ${players}
+Modifikace: ${mods}
+${priceDisplay.textContent}`
+    );
+
+    window.location.href = `mailto:klarzygame@gmail.com?subject=${subject}&body=${body}`;
+}
 </script>
-
-    <script>
-        function sendEmail() {
-            const game = document.getElementById("game").value;
-            const ram = document.getElementById("ram").value;
-            const players = document.getElementById("players").value;
-            const mods = document.getElementById("mods").value;
-
-            if (!game || !ram || !players || !mods ||
-                game.includes("Vyberte") || ram.includes("Vyberte") || players.includes("Vyberte") || mods.includes("Vyberte")) {
-                alert("⚠️ Vyplňte prosím všechny položky.");
-                return;
-            }
-
-            const subject = encodeURIComponent("Nová konfigurace serveru");
-            const body = encodeURIComponent(
-                `Zákazník vybral následující konfiguraci:\n\nVerze: ${game}\nRAM: ${ram}\nPočet hráčů: ${players}\nModifikace: ${mods}`
-            );
-            const mailtoLink = `mailto:klarzygame@gmail.com?subject=${subject}&body=${body}`;
-            window.location.href = mailtoLink;
-        }
-    </script>
 
 </body>
 </html>
