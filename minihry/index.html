@@ -1,1 +1,316 @@
- <title>HRY</title>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <link rel="icon" type="image/png" href="https://mycathost.cz/favicon-32x32.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MycatHost.cz – Minihry</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(160deg, #0e0e0e, #1a1a1a, #121212);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Logo */
+        .top-right-logo {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .top-right-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #007BFF, #0051b8);
+            padding: 22px;
+            text-align: left;
+            border-bottom: 3px solid red;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .header h1 {
+            color: white;
+            display: inline;
+            font-size: 32px;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: #ff3b3b;
+        }
+
+        /* Navigace */
+        .nav {
+            background-color: #222;
+            padding: 18px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .nav a {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 240px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            font-size: 22px;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .nav a:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+        }
+
+        .nav a span {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: rgba(0,0,0,0.55);
+            padding: 10px 8px;
+            font-weight: bold;
+        }
+
+        /* Obrázky menu */
+        .nav a.basic {
+            background-image: url('https://store-images.s-microsoft.com/image/apps.60323.14294656681058683.4d17bdd8-7026-429a-846f-cf7836bc9e56.a69e6905-8926-4a48-b243-14a039b97aae?mode=scale&q=90&h=1080&w=1920&format=jpg');
+        }
+
+        .nav a.beefy {
+            background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fres.cloudinary.com%2Funitedprint-com-se%2Fimage%2Fupload%2Fc_fill%2Cf_auto%2Ch_482%2Cw_700%2Fv1%2Fmaster%2F002-0_Teaser-Dummy_cpkpfp&f=1&nofb=1');
+        }
+
+        .nav a.about {
+            background-image: url('https://iregister.al/wp-content/uploads/2019/04/server-hosting.jpeg');
+        }
+
+        .nav a.dalsi {
+            background-image: url('https://thumbs.dreamstime.com/b/man-fix-server-network-data-center-room-67131350.jpg');
+        }
+
+        .nav a.minihry {
+            background-image: url('https://mycathost.cz/Minihry/minihry.png');
+        }
+
+        /* Obsah */
+        .content {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #222;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .content h2 {
+            color: #4db8ff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 20px;
+            color: #ccc;
+            margin-bottom: 35px;
+        }
+
+        /* Minihry */
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            background: linear-gradient(145deg, #007BFF, #0055cc);
+            border-radius: 14px;
+            padding: 35px 25px;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.45);
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+        }
+
+        .game-card h3 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .game-card p {
+            margin-top: 12px;
+            color: #dbeaff;
+            font-size: 17px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 14px;
+            color: #ccc;
+            margin-top: auto;
+            font-size: 14px;
+            background: #111;
+            border-top: 1px solid #222;
+        }
+
+        .footer a {
+            color: #4db8ff;
+            text-decoration: none;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav a {
+                width: 90%;
+                height: 110px;
+            }
+
+            .content {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .game-card h3 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="top-right-logo">
+            <img src="https://mycathost.cz/favicon-32x32.png" alt="Logo">
+        </div>
+
+        <h1>
+            <a href="/" style="color: white; text-decoration: none;">
+                Mycat<span>Host</span>
+            </a>
+        </h1>
+    </div>
+
+    <!-- Navigace -->
+    <div class="nav">
+        <a href="https://mycathost.cz/Minecraft/" class="basic">
+            <span>Minecraft</span>
+        </a>
+
+        <a href="https://mycathost.cz/3dtisk/" class="beefy">
+            <span>3D Tisk</span>
+        </a>
+
+        <a href="https://mycathost.cz/AboutUs/" class="about">
+            <span>O nás</span>
+        </a>
+
+        <a href="https://mycathost.cz/DalsiSluzby/" class="dalsi">
+            <span>Další služby</span>
+        </a>
+
+        <a href="https://mycathost.cz/Minihry/" class="minihry">
+            <span>Minihry</span>
+        </a>
+    </div>
+
+    <!-- Obsah -->
+    <div class="content">
+
+        <h2>Vyber si minihru</h2>
+
+        <div class="tagline">
+            Klikni na jednu z minihier níže
+        </div>
+
+        <div class="games-grid">
+
+            <a class="game-card" href="/Minihry/BedWars/">
+                <h3>🛏 BedWars</h3>
+                <p>Klasický PvP souboj týmů</p>
+            </a>
+
+            <a class="game-card" href="/Minihry/SkyWars/">
+                <h3>☁ SkyWars</h3>
+                <p>Bojuj na létajících ostrovech</p>
+            </a>
+
+            <a class="game-card" href="/Minihry/TNTRun/">
+                <h3>💥 TNT Run</h3>
+                <p>Utíkej před padající podlahou</p>
+            </a>
+
+            <a class="game-card" href="/Minihry/SurvivalGames/">
+                <h3>⚔ Survival Games</h3>
+                <p>Poslední hráč vyhrává</p>
+            </a>
+
+            <a class="game-card" href="/Minihry/Parkour/">
+                <h3>🧗 Parkour</h3>
+                <p>Skákej přes překážky</p>
+            </a>
+
+            <a class="game-card" href="/Minihry/BuildBattle/">
+                <h3>🏗 Build Battle</h3>
+                <p>Postav nejlepší stavbu</p>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © <span id="year"></span> MycatHost.cz – Všechna práva vyhrazena |
+        <a href="https://mycathost.cz/CopyRight/Terms/index.html">Podmínky</a> •
+        <a href="https://mycathost.cz/CopyRight/GDPR/index.html">GDPR</a> •
+        <a href="https://mycathost.cz/CopyRight/Cookies/index.html">Cookies</a>
+    </div>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
