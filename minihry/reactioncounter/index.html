@@ -2,27 +2,33 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Reaction Hunter</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
     body {
       margin: 0;
-      height: 100vh;
+      height: 100dvh; /* mobile safe viewport */
       overflow: hidden;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #a8d8ff, #d0ecff);
       color: #fff;
+      touch-action: manipulation; /* faster taps */
     }
 
     .back {
       position: absolute;
-      top: 16px;
-      left: 16px;
+      top: max(12px, env(safe-area-inset-top));
+      left: max(12px, env(safe-area-inset-left));
       text-decoration: none;
       color: #ffffff;
       font-weight: bold;
       z-index: 10;
+      padding: 10px 14px; /* larger tap target */
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      backdrop-filter: blur(6px);
     }
 
     .circle-bg {
@@ -30,28 +36,36 @@
       border-radius: 50%;
       filter: blur(60px);
       opacity: 0.6;
+      pointer-events: none;
     }
-    .bg1 { width: 300px; height: 300px; background: pink; top: 10%; left: 10%; }
-    .bg2 { width: 200px; height: 200px; background: yellow; top: 60%; left: 20%; }
-    .bg3 { width: 250px; height: 250px; background: lightgreen; top: 30%; left: 70%; }
-    .bg4 { width: 180px; height: 180px; background: orange; top: 70%; left: 70%; }
+    .bg1 { width: 45vw; height: 45vw; background: pink; top: 8%; left: 8%; }
+    .bg2 { width: 30vw; height: 30vw; background: yellow; top: 65%; left: 15%; }
+    .bg3 { width: 38vw; height: 38vw; background: lightgreen; top: 25%; left: 65%; }
+    .bg4 { width: 28vw; height: 28vw; background: orange; top: 70%; left: 70%; }
 
     .hud {
       position: absolute;
-      top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
+      bottom: calc(12px + env(safe-area-inset-bottom)); /* move down for thumbs */
       text-align: center;
       z-index: 5;
+      width: min(92vw, 520px);
     }
 
     .box {
       background: rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
-      padding: 15px 30px;
-      margin: 10px;
-      border-radius: 15px;
-      font-size: 24px;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 14px;
+      font-size: clamp(16px, 3.6vw, 22px);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
 
     .play-area {
@@ -64,21 +78,23 @@
       position: absolute;
       border-radius: 50%;
       cursor: pointer;
-      animation: pop 0.2s ease-out;
+      animation: pop 0.15s ease-out;
+      will-change: transform, opacity;
     }
 
     @keyframes pop {
-      from { transform: scale(0.3); opacity: 0; }
+      from { transform: scale(0.4); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
     .start-btn {
-      margin-top: 20px;
-      padding: 12px 25px;
+      margin-top: 10px;
+      padding: 14px 22px; /* bigger for touch */
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
+      width: 100%;
     }
   </style>
 </head>
@@ -92,9 +108,11 @@
 <div class="circle-bg bg4"></div>
 
 <div class="hud">
-  <div class="box">Score: <span id="score">0</span></div>
-  <div class="box">Avg Reaction: <span id="reaction">0</span> ms</div>
-  <div class="box">Missed: <span id="missed">0</span></div>
+  <div class="row">
+    <div class="box">Score: <span id="score">0</span></div>
+    <div class="box">Avg: <span id="reaction">0</span> ms</div>
+    <div class="box">Missed: <span id="missed">0</span></div>
+  </div>
   <div class="box" id="endText" style="display:none"></div>
   <button class="start-btn" onclick="startGame()">START</button>
 </div>
@@ -108,11 +126,14 @@ let reactions = [];
 let gameRunning = false;
 let timeouts = [];
 let gameTimer = null;
+let activeTargets = 0;
+const MAX_TARGETS = 2; // limit for mobile clarity
 
 function resetGame() {
   timeouts.forEach(t => clearTimeout(t));
   clearTimeout(gameTimer);
   timeouts = [];
+  activeTargets = 0;
   document.getElementById('area').innerHTML = '';
 }
 
@@ -130,17 +151,15 @@ function startGame() {
   document.getElementById('endText').style.display = 'none';
 
   spawnLoop();
-
-  // konec hry po 30s
   gameTimer = setTimeout(endGame, 30000);
 }
 
 function spawnLoop() {
   if (!gameRunning) return;
 
-  let delay = Math.random() * 1500 + 500;
+  let delay = Math.random() * 1200 + 400; // a bit faster but capped by MAX_TARGETS
   let t = setTimeout(() => {
-    spawnTarget();
+    if (activeTargets < MAX_TARGETS) spawnTarget();
     spawnLoop();
   }, delay);
 
@@ -151,9 +170,10 @@ function spawnTarget() {
   const area = document.getElementById('area');
   const target = document.createElement('div');
 
-  let size = Math.random() * 80 + 40;
-  let x = Math.random() * (window.innerWidth - size);
-  let y = Math.random() * (window.innerHeight - size);
+  let size = Math.random() * 70 + 55; // bigger for touch (55–125px)
+  const pad = 8;
+  let x = Math.random() * (window.innerWidth - size - pad*2) + pad;
+  let y = Math.random() * (window.innerHeight - size - pad*2) + pad;
 
   target.classList.add('target');
   target.style.width = size + 'px';
@@ -164,24 +184,29 @@ function spawnTarget() {
   let isFake = Math.random() < 0.2;
   target.style.background = isFake ? 'red' : 'lime';
 
-  let startTime = Date.now();
+  let startTime = performance.now();
+  activeTargets++;
 
-  target.onclick = () => {
+  const hit = () => {
     if (!gameRunning) return;
 
     if (isFake) {
       score -= 2;
     } else {
-      let reaction = Date.now() - startTime;
+      let reaction = Math.round(performance.now() - startTime);
       reactions.push(reaction);
       let avg = Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length);
       document.getElementById('reaction').innerText = avg;
-      score += Math.round(200 / (size / 50));
+      score += Math.round(220 / (size / 60));
     }
 
     document.getElementById('score').innerText = score;
-    target.remove();
+    if (target.parentNode) target.remove();
+    activeTargets = Math.max(0, activeTargets - 1);
   };
+
+  // pointer events = unify mouse + touch
+  target.addEventListener('pointerdown', (e) => { e.preventDefault(); hit(); }, {passive:false});
 
   area.appendChild(target);
 
@@ -190,6 +215,7 @@ function spawnTarget() {
       target.remove();
       missed++;
       document.getElementById('missed').innerText = missed;
+      activeTargets = Math.max(0, activeTargets - 1);
     }
   }, 1000);
 
