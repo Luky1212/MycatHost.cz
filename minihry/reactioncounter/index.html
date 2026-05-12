@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reaction Hunter</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #a8d8ff, #d0ecff);
+      color: #fff;
+    }
+
+    .back {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    .circle-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.6;
+    }
+    .bg1 { width: 300px; height: 300px; background: pink; top: 10%; left: 10%; }
+    .bg2 { width: 200px; height: 200px; background: yellow; top: 60%; left: 20%; }
+    .bg3 { width: 250px; height: 250px; background: lightgreen; top: 30%; left: 70%; }
+    .bg4 { width: 180px; height: 180px; background: orange; top: 70%; left: 70%; }
+
+    .hud {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 5;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      margin: 10px;
+      border-radius: 15px;
+      font-size: 24px;
+    }
+
+    .play-area {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .target {
+      position: absolute;
+      border-radius: 50%;
+      cursor: pointer;
+      animation: pop 0.2s ease-out;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.3); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .start-btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<a href="https://mycathost.cz/minihry" class="back">← Back</a>
+
+<div class="circle-bg bg1"></div>
+<div class="circle-bg bg2"></div>
+<div class="circle-bg bg3"></div>
+<div class="circle-bg bg4"></div>
+
+<div class="hud">
+  <div class="box">Score: <span id="score">0</span></div>
+  <div class="box">Avg Reaction: <span id="reaction">0</span> ms</div>
+  <div class="box">Missed: <span id="missed">0</span></div>
+  <div class="box" id="endText" style="display:none"></div>
+  <button class="start-btn" onclick="startGame()">START</button>
+</div>
+
+<div class="play-area" id="area"></div>
+
+<script>
+let score = 0;
+let missed = 0;
+let reactions = [];
+let gameRunning = false;
+let timeouts = [];
+let gameTimer = null;
+
+function resetGame() {
+  timeouts.forEach(t => clearTimeout(t));
+  clearTimeout(gameTimer);
+  timeouts = [];
+  document.getElementById('area').innerHTML = '';
+}
+
+function startGame() {
+  resetGame();
+
+  score = 0;
+  missed = 0;
+  reactions = [];
+  gameRunning = true;
+
+  document.getElementById('score').innerText = 0;
+  document.getElementById('missed').innerText = 0;
+  document.getElementById('reaction').innerText = 0;
+  document.getElementById('endText').style.display = 'none';
+
+  spawnLoop();
+
+  // konec hry po 30s
+  gameTimer = setTimeout(endGame, 30000);
+}
+
+function spawnLoop() {
+  if (!gameRunning) return;
+
+  let delay = Math.random() * 1500 + 500;
+  let t = setTimeout(() => {
+    spawnTarget();
+    spawnLoop();
+  }, delay);
+
+  timeouts.push(t);
+}
+
+function spawnTarget() {
+  const area = document.getElementById('area');
+  const target = document.createElement('div');
+
+  let size = Math.random() * 80 + 40;
+  let x = Math.random() * (window.innerWidth - size);
+  let y = Math.random() * (window.innerHeight - size);
+
+  target.classList.add('target');
+  target.style.width = size + 'px';
+  target.style.height = size + 'px';
+  target.style.left = x + 'px';
+  target.style.top = y + 'px';
+
+  let isFake = Math.random() < 0.2;
+  target.style.background = isFake ? 'red' : 'lime';
+
+  let startTime = Date.now();
+
+  target.onclick = () => {
+    if (!gameRunning) return;
+
+    if (isFake) {
+      score -= 2;
+    } else {
+      let reaction = Date.now() - startTime;
+      reactions.push(reaction);
+      let avg = Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length);
+      document.getElementById('reaction').innerText = avg;
+      score += Math.round(200 / (size / 50));
+    }
+
+    document.getElementById('score').innerText = score;
+    target.remove();
+  };
+
+  area.appendChild(target);
+
+  let t = setTimeout(() => {
+    if (area.contains(target)) {
+      target.remove();
+      missed++;
+      document.getElementById('missed').innerText = missed;
+    }
+  }, 1000);
+
+  timeouts.push(t);
+}
+
+function endGame() {
+  gameRunning = false;
+  resetGame();
+
+  let avg = reactions.length
+    ? Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length)
+    : 0;
+
+  let rank = "🐢 slow";
+  if (avg < 300) rank = "⚡ fast";
+  if (avg < 200) rank = "🔥 insane";
+
+  const endText = document.getElementById('endText');
+  endText.style.display = 'block';
+  endText.innerText = `Konec hry! Score: ${score} | Avg: ${avg} ms | Rank: ${rank}`;
+}
+</script>
+
+</body>
+</html>
