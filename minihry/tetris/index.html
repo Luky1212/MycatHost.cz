@@ -40,13 +40,9 @@
     .page {
       height: 100dvh;
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: 12px;
-      padding:
-        calc(58px + env(safe-area-inset-top))
-        max(12px, env(safe-area-inset-right))
-        calc(12px + env(safe-area-inset-bottom))
-        max(12px, env(safe-area-inset-left));
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 14px;
+      padding: calc(58px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
     }
 
     .hud {
@@ -66,7 +62,6 @@
     }
 
     .box {
-      min-width: 0;
       padding: 10px 8px;
       text-align: center;
       font-size: clamp(13px, 2.1vw, 18px);
@@ -75,14 +70,14 @@
     }
 
     .stage {
-      width: min(860px, 100%);
+      width: min(920px, 100%);
       min-height: 0;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(260px, 390px) minmax(140px, 190px);
+      grid-template-columns: minmax(300px, 390px) 220px;
       justify-content: center;
       align-items: center;
-      gap: 14px;
+      gap: 18px;
     }
 
     .board-wrap {
@@ -102,7 +97,7 @@
     }
 
     #board {
-      width: min(390px, 100%, calc((100dvh - 190px) / 2));
+      width: min(390px, 100%, calc((100dvh - 118px) / 2));
       aspect-ratio: 1 / 2;
       border-radius: 14px;
     }
@@ -111,6 +106,7 @@
       display: grid;
       gap: 10px;
       align-self: center;
+      align-content: center;
     }
 
     .panel {
@@ -157,10 +153,9 @@
     .hidden { display: none; }
 
     .controls {
-      width: min(860px, 100%);
-      margin: 0 auto;
+      width: 100%;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
 
@@ -184,22 +179,18 @@
       background: #1478ff;
     }
 
-    .start { grid-column: span 2; }
+    .start { grid-column: 1 / -1; }
 
     @media (min-width: 760px) {
-      .controls {
-        grid-template-columns: 1.1fr 1.1fr 1.1fr 1.1fr 1.3fr 1.6fr;
-      }
+      .controls button { min-height: 56px; }
+      .controls .drop { grid-column: 1 / -1; }
     }
 
     @media (max-width: 720px) {
       .page {
         grid-template-rows: auto minmax(0, 1fr) auto;
         gap: 8px;
-        padding:
-          calc(54px + env(safe-area-inset-top))
-          10px
-          calc(10px + env(safe-area-inset-bottom));
+        padding: calc(54px + env(safe-area-inset-top)) 10px calc(10px + env(safe-area-inset-bottom));
       }
 
       .hud {
@@ -214,10 +205,19 @@
       }
 
       .stage {
+        grid-template-areas:
+          "board next"
+          "controls controls";
         grid-template-columns: minmax(0, 1fr) 86px;
         align-items: start;
         gap: 8px;
       }
+
+      .board-wrap { grid-area: board; }
+
+      .side { display: contents; }
+
+      .next-panel { grid-area: next; }
 
       #board {
         width: min(calc((100dvh - 258px) / 2), calc(100vw - 116px));
@@ -227,29 +227,22 @@
         border-radius: 12px;
       }
 
-      .side {
-        align-self: start;
-        gap: 7px;
-      }
-
       .panel {
         padding: 7px;
         border-radius: 11px;
         font-size: 12px;
       }
 
-      #next {
-        margin-top: 5px;
-      }
+      #next { margin-top: 5px; }
 
-      .hint {
-        display: none;
-      }
+      .hint { display: none; }
 
       .controls {
+        grid-area: controls;
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: auto auto;
         gap: 7px;
+        margin-top: 2px;
       }
 
       button {
@@ -263,6 +256,8 @@
         grid-column: 1 / -1;
         min-height: clamp(48px, 7.5dvh, 64px);
       }
+
+      .controls .drop { grid-column: auto; }
     }
 
     @media (max-width: 390px) {
@@ -271,9 +266,7 @@
         padding: 6px 3px;
       }
 
-      .stage {
-        grid-template-columns: minmax(0, 1fr) 76px;
-      }
+      .stage { grid-template-columns: minmax(0, 1fr) 76px; }
 
       #board {
         width: min(calc((100dvh - 250px) / 2), calc(100vw - 102px));
@@ -292,13 +285,9 @@
         padding-top: calc(48px + env(safe-area-inset-top));
       }
 
-      .box {
-        padding: 7px 6px;
-      }
+      .box { padding: 7px 6px; }
 
-      #board {
-        width: min(320px, calc((100dvh - 155px) / 2));
-      }
+      #board { width: min(320px, calc((100dvh - 155px) / 2)); }
 
       button {
         min-height: 44px;
@@ -325,7 +314,7 @@
       </div>
 
       <aside class="side">
-        <div class="panel">
+        <div class="panel next-panel">
           NEXT
           <canvas id="next" width="120" height="120"></canvas>
         </div>
@@ -336,16 +325,15 @@
           Space drop<br>
           P pauza
         </div>
+        <section class="controls">
+          <button type="button" onclick="movePiece(-1)">←</button>
+          <button type="button" onclick="rotatePiece()">⟳</button>
+          <button type="button" onclick="movePiece(1)">→</button>
+          <button type="button" onclick="softDrop()">↓</button>
+          <button class="drop" type="button" onclick="hardDrop()">DROP</button>
+          <button class="primary start" type="button" onclick="startGame()">START</button>
+        </section>
       </aside>
-    </section>
-
-    <section class="controls">
-      <button type="button" onclick="movePiece(-1)">←</button>
-      <button type="button" onclick="rotatePiece()">⟳</button>
-      <button type="button" onclick="movePiece(1)">→</button>
-      <button type="button" onclick="softDrop()">↓</button>
-      <button type="button" onclick="hardDrop()">DROP</button>
-      <button class="primary start" type="button" onclick="startGame()">START</button>
     </section>
   </main>
 
