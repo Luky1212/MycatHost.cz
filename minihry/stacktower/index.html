@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Nokia Snake</title>
+  <title>Stack Tower</title>
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
 
     body {
       margin: 0;
-      min-height: 100dvh;
+      height: 100dvh;
       overflow: hidden;
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,.14), transparent 24%),
-        radial-gradient(circle at 80% 82%, rgba(0,0,0,.22), transparent 32%),
-        linear-gradient(135deg, #2f3c52, #111824);
-      color: #d6f3a4;
+        radial-gradient(circle at 18% 16%, rgba(255,226,93,.9), transparent 27%),
+        radial-gradient(circle at 84% 20%, rgba(80,220,255,.75), transparent 30%),
+        radial-gradient(circle at 22% 84%, rgba(255,95,157,.72), transparent 30%),
+        linear-gradient(135deg, #4c63ff, #1fc7a8);
+      color: #fff;
       user-select: none;
       touch-action: manipulation;
     }
@@ -32,402 +33,351 @@
       text-decoration: none;
       font-weight: 800;
       border-radius: 10px;
-      background: rgba(0,0,0,.28);
+      background: rgba(0,0,0,.24);
       backdrop-filter: blur(8px);
     }
 
-    .page {
+    .game {
       height: 100dvh;
       display: grid;
-      place-items: center;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
       padding: calc(58px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
     }
 
-    .phone {
-      width: min(420px, 96vw);
-      padding: 22px 18px 18px;
-      border-radius: 34px;
-      background: linear-gradient(145deg, #202a39, #101722);
-      border: 2px solid rgba(255,255,255,.1);
-      box-shadow:
-        inset 0 2px 0 rgba(255,255,255,.08),
-        inset 0 -10px 22px rgba(0,0,0,.32),
-        0 26px 70px rgba(0,0,0,.42);
+    .hud {
+      width: min(560px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
 
-    .brand {
+    .box {
+      padding: 10px 8px;
       text-align: center;
-      color: rgba(255,255,255,.82);
-      font-size: 13px;
+      font-size: clamp(14px, 3.4vw, 20px);
       font-weight: 900;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(255,255,255,.28);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(20,35,80,.16);
     }
 
-    .screen {
+    .arena {
       position: relative;
-      padding: 12px;
-      border-radius: 12px;
-      background: #8fab63;
-      border: 8px solid #0b1119;
-      box-shadow:
-        inset 0 0 18px rgba(29,48,15,.32),
-        0 10px 22px rgba(0,0,0,.35);
-      color: #1e3514;
+      width: min(560px, 100%);
+      min-height: 0;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 22px;
+      background:
+        linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+        rgba(16,30,78,.24);
+      background-size: 32px 32px;
+      border: 1px solid rgba(255,255,255,.28);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.1), 0 18px 44px rgba(14,30,80,.24);
+      backdrop-filter: blur(10px);
     }
 
-    .lcd-top {
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 0 2px 8px;
-      font-family: "Courier New", monospace;
-      font-size: 15px;
-      font-weight: 900;
-      text-transform: uppercase;
+    .block {
+      position: absolute;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fff36e, #ff9f43);
+      box-shadow: inset 0 3px 0 rgba(255,255,255,.35), inset 0 -5px 0 rgba(0,0,0,.14), 0 8px 20px rgba(0,0,0,.18);
     }
 
-    canvas {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      image-rendering: pixelated;
-      background: #9fbd70;
-      border: 3px solid #1e3514;
+    .block:nth-child(3n) { background: linear-gradient(180deg, #75f5ff, #2f86ff); }
+    .block:nth-child(3n + 1) { background: linear-gradient(180deg, #ff9cca, #ff3f75); }
+
+    .cut {
+      position: absolute;
+      height: 34px;
+      border-radius: 8px;
+      opacity: .95;
+      animation: fall .55s ease-in forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(190px) rotate(18deg); opacity: 0; }
     }
 
     .message {
       position: absolute;
       left: 50%;
-      top: 55%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      width: min(86%, 280px);
-      padding: 10px 9px;
+      width: min(88vw, 420px);
+      padding: 18px;
       text-align: center;
-      border: 3px solid #1e3514;
-      background: #9fbd70;
-      color: #1e3514;
-      font-family: "Courier New", monospace;
-      font-size: clamp(13px, 3.5vw, 17px);
+      border-radius: 18px;
+      background: rgba(13,28,76,.8);
+      border: 1px solid rgba(255,255,255,.2);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 36px rgba(0,0,0,.22);
+      font-size: clamp(17px, 4vw, 22px);
       font-weight: 900;
-      line-height: 1.25;
-      text-transform: uppercase;
+      line-height: 1.35;
+      z-index: 10;
     }
 
     .hidden { display: none; }
 
-    .panel {
-      margin-top: 10px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .actions {
+    .controls {
+      width: min(560px, 100%);
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
 
     button {
-      border: 2px solid rgba(255,255,255,.28);
-      border-radius: 14px;
-      padding: 13px 10px;
-      color: #ffffff;
-      background: linear-gradient(145deg, #5f7698, #243247);
-      box-shadow:
-        inset 0 2px 0 rgba(255,255,255,.24),
-        inset 0 -4px 0 rgba(0,0,0,.24),
-        0 8px 16px rgba(0,0,0,.34);
-      font-size: 16px;
+      border: 0;
+      border-radius: 15px;
+      padding: 15px 12px;
+      color: #17305f;
+      background: #fff;
+      font-size: clamp(16px, 4vw, 20px);
       font-weight: 900;
       cursor: pointer;
-      text-shadow: 0 1px 2px rgba(0,0,0,.5);
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
     }
 
-    button:active {
-      transform: translateY(1px);
-      box-shadow: inset 0 2px 8px rgba(0,0,0,.35);
+    button:active { transform: translateY(1px); }
+
+    .drop {
+      grid-column: 1 / -1;
+      min-height: 58px;
+      color: #fff;
+      background: #132b5e;
+      letter-spacing: .5px;
     }
 
-    .dpad {
-      width: min(250px, 72vw);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
-      gap: 8px;
-    }
-
-    .dpad button {
-      min-height: 56px;
-      border-radius: 16px;
-      font-size: 25px;
-      background: linear-gradient(145deg, #7f97bd, #2d3d56);
-    }
-
-    .up { grid-column: 2; grid-row: 1; }
-    .left { grid-column: 1; grid-row: 2; }
-    .mid {
-      grid-column: 2;
-      grid-row: 2;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #3f516c, #151e2b);
-      pointer-events: none;
-    }
-    .right { grid-column: 3; grid-row: 2; }
-    .down { grid-column: 2; grid-row: 3; }
-
-    @media (max-height: 720px) {
-      .phone { padding: 16px 14px 14px; }
-      .brand { margin-bottom: 8px; }
-      .panel { margin-top: 8px; gap: 8px; }
-      .dpad button { min-height: 48px; }
-      button { padding: 10px 8px; }
-    }
-
-    @media (max-width: 640px) {
-      .page {
-        align-items: stretch;
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-
-      .phone {
-        width: 100%;
-        min-height: 100%;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
-        padding: 16px 12px 12px;
-        border-radius: 26px;
-      }
-
-      .screen {
-        align-self: start;
-      }
-
-      .panel {
-        align-self: end;
-        gap: 10px;
-        margin-top: 8px;
-      }
-
-      .actions {
-        gap: 8px;
-      }
-
-      .actions button {
-        min-height: 48px;
-        font-size: 17px;
-      }
-
-      .dpad {
-        width: 100%;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
-      }
-
-      .dpad button {
-        min-height: clamp(58px, 14dvh, 86px);
-        border-radius: 18px;
-        font-size: clamp(26px, 8vw, 38px);
-      }
+    @media (max-height: 650px) {
+      .game { gap: 7px; }
+      .box { padding: 8px 6px; }
+      button { padding: 12px 10px; }
+      .drop { min-height: 50px; }
     }
   </style>
 </head>
 <body>
   <a href="https://mycathost.cz/minihry" class="back">← Back</a>
 
-  <main class="page">
-    <section class="phone">
-      <div class="brand">NOKIA</div>
+  <main class="game">
+    <section class="hud">
+      <div class="box">Score: <span id="score">0</span></div>
+      <div class="box">Combo: <span id="combo">0</span></div>
+      <div class="box">Best: <span id="best">0</span></div>
+    </section>
 
-      <div class="screen">
-        <div class="lcd-top">
-          <span>Score: <span id="score">0</span></span>
-          <span>Best: <span id="best">0</span></span>
-        </div>
-        <canvas id="board" width="240" height="240"></canvas>
-        <div class="message" id="message">Snake<br>Start: Enter / Button<br>Move: Arrows</div>
-      </div>
+    <section class="arena" id="arena">
+      <div class="message" id="message">Stack Tower<br>Stiskni START a zastav blok co nejpřesněji.</div>
+    </section>
 
-      <div class="panel">
-        <div class="actions">
-          <button type="button" onclick="startGame()">START</button>
-          <button type="button" onclick="togglePause()">PAUSE</button>
-        </div>
-
-        <div class="dpad" aria-label="Snake controls">
-          <button class="up" type="button" onclick="setDirection(0, -1)">↑</button>
-          <button class="left" type="button" onclick="setDirection(-1, 0)">←</button>
-          <button class="mid" type="button" tabindex="-1"></button>
-          <button class="right" type="button" onclick="setDirection(1, 0)">→</button>
-          <button class="down" type="button" onclick="setDirection(0, 1)">↓</button>
-        </div>
-      </div>
+    <section class="controls">
+      <button type="button" onclick="startGame()">START</button>
+      <button type="button" onclick="restartGame()">RESET</button>
+      <button class="drop" type="button" onclick="dropBlock()">DROP / SPACE</button>
     </section>
   </main>
 
   <script>
-    const canvas = document.getElementById('board');
-    const ctx = canvas.getContext('2d');
-    const scoreEl = document.getElementById('score');
-    const bestEl = document.getElementById('best');
+    const arena = document.getElementById('arena');
     const message = document.getElementById('message');
+    const scoreEl = document.getElementById('score');
+    const comboEl = document.getElementById('combo');
+    const bestEl = document.getElementById('best');
 
-    const cells = 20;
-    const cell = canvas.width / cells;
-    const bg = '#9fbd70';
-    const dark = '#1e3514';
-    const light = '#8fab63';
-
-    let snake;
-    let food;
-    let dir;
-    let nextDir;
-    let score;
-    let best = Number(localStorage.getItem('nokiaSnakeBest') || 0);
-    let timer = 0;
+    let blocks = [];
+    let active = null;
+    let score = 0;
+    let combo = 0;
+    let speed = 2.5;
+    let direction = 1;
     let running = false;
-    let paused = false;
+    let frameId = 0;
+    let best = Number(localStorage.getItem('stackTowerBest') || 0);
 
     bestEl.textContent = best;
 
-    function resetState() {
-      snake = [
-        { x: 9, y: 10 },
-        { x: 8, y: 10 },
-        { x: 7, y: 10 }
-      ];
-      dir = { x: 1, y: 0 };
-      nextDir = { x: 1, y: 0 };
-      score = 0;
-      scoreEl.textContent = score;
-      food = randomFood();
+    function arenaSize() {
+      return {
+        width: arena.clientWidth,
+        height: arena.clientHeight
+      };
     }
 
     function startGame() {
-      clearInterval(timer);
-      resetState();
+      if (running) return;
+      restartGame();
+    }
+
+    function restartGame() {
+      cancelAnimationFrame(frameId);
+      arena.querySelectorAll('.block, .cut').forEach(el => el.remove());
+
+      blocks = [];
+      active = null;
+      score = 0;
+      combo = 0;
+      speed = 2.5;
+      direction = 1;
       running = true;
-      paused = false;
+
+      scoreEl.textContent = score;
+      comboEl.textContent = combo;
       message.classList.add('hidden');
-      draw();
-      timer = setInterval(tick, 120);
+
+      const size = arenaSize();
+      const baseWidth = Math.min(250, size.width * .64);
+      const base = createBlock((size.width - baseWidth) / 2, size.height - 46, baseWidth);
+      blocks.push(base);
+      spawnMovingBlock();
+      frameId = requestAnimationFrame(loop);
     }
 
-    function togglePause() {
-      if (!running) return;
-      paused = !paused;
-      message.classList.toggle('hidden', !paused);
-      if (paused) message.innerHTML = 'Paused';
+    function createBlock(x, y, width) {
+      const el = document.createElement('div');
+      el.className = 'block';
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.width = width + 'px';
+      arena.appendChild(el);
+      return { el, x, y, width };
     }
 
-    function setDirection(x, y) {
-      if (dir.x + x === 0 && dir.y + y === 0) return;
-      nextDir = { x, y };
+    function spawnMovingBlock() {
+      const last = blocks[blocks.length - 1];
+      const size = arenaSize();
+      const y = last.y - 38;
+
+      if (y < 18) {
+        shiftTowerDown();
+      }
+
+      const spawnY = Math.max(18, blocks[blocks.length - 1].y - 38);
+      const x = direction > 0 ? 0 : size.width - last.width;
+      active = createBlock(x, spawnY, last.width);
     }
 
-    function randomFood() {
-      let position;
-      do {
-        position = {
-          x: Math.floor(Math.random() * cells),
-          y: Math.floor(Math.random() * cells)
-        };
-      } while (snake.some(part => part.x === position.x && part.y === position.y));
-      return position;
+    function shiftTowerDown() {
+      blocks.forEach(block => {
+        block.y += 38;
+        block.el.style.top = block.y + 'px';
+      });
     }
 
-    function tick() {
-      if (!running || paused) return;
+    function loop() {
+      if (!running || !active) return;
 
-      dir = nextDir;
-      const head = {
-        x: snake[0].x + dir.x,
-        y: snake[0].y + dir.y
-      };
+      const size = arenaSize();
+      active.x += speed * direction;
 
-      const hitWall = head.x < 0 || head.y < 0 || head.x >= cells || head.y >= cells;
-      const hitSelf = snake.some(part => part.x === head.x && part.y === head.y);
+      if (active.x <= 0) {
+        active.x = 0;
+        direction = 1;
+      }
 
-      if (hitWall || hitSelf) {
-        gameOver();
+      if (active.x + active.width >= size.width) {
+        active.x = size.width - active.width;
+        direction = -1;
+      }
+
+      active.el.style.left = active.x + 'px';
+      frameId = requestAnimationFrame(loop);
+    }
+
+    function dropBlock() {
+      if (!running || !active) return;
+
+      const last = blocks[blocks.length - 1];
+      const left = Math.max(active.x, last.x);
+      const right = Math.min(active.x + active.width, last.x + last.width);
+      const overlap = right - left;
+
+      if (overlap <= 4) {
+        endGame();
         return;
       }
 
-      snake.unshift(head);
+      const perfect = Math.abs(active.x - last.x) <= 5;
+      const cutLeft = active.x < left ? active.x : right;
+      const cutWidth = active.width - overlap;
 
-      if (head.x === food.x && head.y === food.y) {
-        score += 10;
-        scoreEl.textContent = score;
-        if (score > best) {
-          best = score;
-          bestEl.textContent = best;
-          localStorage.setItem('nokiaSnakeBest', best);
-        }
-        food = randomFood();
-      } else {
-        snake.pop();
+      if (!perfect && cutWidth > 3) {
+        createCutPiece(cutLeft, active.y, cutWidth, active.el.style.background);
       }
 
-      draw();
+      active.x = perfect ? last.x : left;
+      active.width = perfect ? last.width : overlap;
+      active.el.style.left = active.x + 'px';
+      active.el.style.width = active.width + 'px';
+
+      blocks.push(active);
+      active = null;
+
+      combo = perfect ? combo + 1 : 0;
+      score += perfect ? 3 + combo : 1;
+      speed += perfect ? .08 : .16;
+
+      scoreEl.textContent = score;
+      comboEl.textContent = combo;
+
+      if (score > best) {
+        best = score;
+        bestEl.textContent = best;
+        localStorage.setItem('stackTowerBest', best);
+      }
+
+      spawnMovingBlock();
     }
 
-    function gameOver() {
+    function createCutPiece(x, y, width, color) {
+      const el = document.createElement('div');
+      el.className = 'cut';
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.width = width + 'px';
+      el.style.background = color || 'linear-gradient(180deg, #fff36e, #ff9f43)';
+      arena.appendChild(el);
+      setTimeout(() => el.remove(), 650);
+    }
+
+    function endGame() {
       running = false;
-      clearInterval(timer);
-      draw();
-      message.classList.remove('hidden');
-      message.innerHTML = 'Game Over<br>Score: ' + score + '<br>Press Start';
-    }
+      cancelAnimationFrame(frameId);
 
-    function drawGrid() {
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.strokeStyle = 'rgba(30,53,20,.13)';
-      ctx.lineWidth = 1;
-      for (let i = 1; i < cells; i++) {
-        const p = i * cell;
-        ctx.beginPath();
-        ctx.moveTo(p, 0);
-        ctx.lineTo(p, canvas.height);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(0, p);
-        ctx.lineTo(canvas.width, p);
-        ctx.stroke();
+      if (active) {
+        active.el.remove();
+        active = null;
       }
-    }
 
-    function drawBlock(x, y, inset) {
-      const pad = inset || 1;
-      ctx.fillStyle = dark;
-      ctx.fillRect(x * cell + pad, y * cell + pad, cell - pad * 2, cell - pad * 2);
-      ctx.fillStyle = light;
-      ctx.fillRect(x * cell + pad + 2, y * cell + pad + 2, cell - pad * 2 - 5, 2);
-    }
+      let rank = 'Dobrý pokus';
+      if (score >= 18) rank = 'Stavitel';
+      if (score >= 35) rank = 'Tower master';
 
-    function draw() {
-      drawGrid();
-      drawBlock(food.x, food.y, 2);
-      snake.forEach((part, index) => drawBlock(part.x, part.y, index === 0 ? 1 : 2));
+      message.classList.remove('hidden');
+      message.innerHTML = 'Konec hry!<br>Score: ' + score + '<br>Rank: ' + rank;
     }
 
     window.addEventListener('keydown', event => {
-      if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') setDirection(0, -1);
-      if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') setDirection(0, 1);
-      if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') setDirection(-1, 0);
-      if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') setDirection(1, 0);
-      if (event.key === 'Enter' || event.key === ' ') startGame();
-      if (event.key.toLowerCase() === 'p') togglePause();
+      if (event.key === 'Enter') startGame();
+      if (event.key === 'r' || event.key === 'R') restartGame();
+      if (event.key === ' ') {
+        event.preventDefault();
+        dropBlock();
+      }
     });
 
-    resetState();
-    draw();
+    window.addEventListener('resize', () => {
+      if (!running) return;
+      restartGame();
+    });
   </script>
 </body>
 </html>
