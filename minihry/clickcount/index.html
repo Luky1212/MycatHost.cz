@@ -2,7 +2,12 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
+
+  <!-- FIX PRO MOBIL -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Click Counter Game</title>
+
   <style>
     body {
       margin: 0;
@@ -10,17 +15,21 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #a8d8ff, #d0ecff);
       overflow: hidden;
+
+      /* FIX PRO TOUCH */
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* rozmazané kruhy */
     .circle {
       position: absolute;
       border-radius: 50%;
       filter: blur(40px);
       opacity: 0.7;
+      pointer-events: none;
     }
 
-    /* náhodné kruhy */
     .circle1 { width: 300px; height: 300px; background: pink; top: 10%; left: 10%; }
     .circle2 { width: 200px; height: 200px; background: yellow; top: 60%; left: 20%; }
     .circle3 { width: 250px; height: 250px; background: lightgreen; top: 30%; left: 70%; }
@@ -55,14 +64,17 @@
     }
 
     button {
-      padding: 15px 30px;
-      font-size: 18px;
+      padding: 20px 40px;
+      font-size: 22px;
       border: none;
-      border-radius: 10px;
+      border-radius: 15px;
       cursor: pointer;
       background: #ffffff;
       color: #333;
       margin-top: 20px;
+
+      /* TOUCH FIX */
+      touch-action: manipulation;
     }
 
     .back {
@@ -72,12 +84,14 @@
       color: white;
       text-decoration: none;
       font-size: 18px;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
 
-<a href="javascript:history.back()" class="back">← Back</a>
+<!-- FUNKČNÍ BACK ODKAZ -->
+<a href="https://mycathost.cz/minihry" class="back">← Back</a>
 
 <div class="circle circle1"></div>
 <div class="circle circle2"></div>
@@ -96,18 +110,21 @@
     <div id="total" class="box">0</div>
   </div>
 
-  <button onclick="clickAction()">KLIKNI</button>
+  <button id="clickBtn">KLIKNI</button>
 </div>
 
 <script>
 let clicks = 0;
 let totalClicks = 0;
 
-function clickAction() {
+const btn = document.getElementById("clickBtn");
+
+// POINTER místo onclick (lepší pro mobil)
+btn.addEventListener("pointerdown", () => {
   clicks++;
   totalClicks++;
   document.getElementById('total').innerText = totalClicks;
-}
+});
 
 setInterval(() => {
   document.getElementById('cps').innerText = clicks;
