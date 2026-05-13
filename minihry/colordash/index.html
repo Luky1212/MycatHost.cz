@@ -1,102 +1,359 @@
-
-
-    .speed-select {
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Color Dash</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255,230,91,.9), transparent 28%),
+        radial-gradient(circle at 80% 22%, rgba(84,214,255,.8), transparent 30%),
+        radial-gradient(circle at 18% 82%, rgba(255,92,151,.75), transparent 30%),
+        linear-gradient(135deg, #5577ff, #23c79f);
+      color: #fff;
+      user-select: none;
+      touch-action: manipulation;
+    }
+    .back {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      left: max(12px, env(safe-area-inset-left));
+      z-index: 20;
+      padding: 10px 14px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 10px;
+      background: rgba(0,0,0,.24);
+      backdrop-filter: blur(8px);
+    }
+    .wrap {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: calc(58px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
+    }
+    .hud, .controls {
+      width: min(640px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 8px;
+    }
+    .hud { grid-template-columns: 1fr 1fr 1fr; }
+    .box {
+      padding: 10px 8px;
+      text-align: center;
+      font-size: clamp(14px, 3.4vw, 20px);
+      font-weight: 800;
+      border-radius: 14px;
+      background: rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(20,35,80,.16);
+    }
+    .arena {
+      position: relative;
+      width: min(640px, 100%);
+      min-height: 0;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.28);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 18px 42px rgba(20,35,80,.22);
+      backdrop-filter: blur(10px);
+    }
+    .lane {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 25%;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+    .lane:nth-child(1) { top: 0; }
+    .lane:nth-child(2) { top: 25%; }
+    .lane:nth-child(3) { top: 50%; }
+    .lane:nth-child(4) { top: 75%; border-bottom: 0; }
+    .player {
+      position: absolute;
+      left: clamp(24px, 8vw, 54px);
+      width: clamp(44px, 11vw, 64px);
+      height: clamp(44px, 11vw, 64px);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 14px 26px rgba(0,0,0,.22);
+      transition: top .12s ease;
+      z-index: 5;
+    }
+    .player::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      background: #25d878;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,.14);
+    }
+    .orb {
+      position: absolute;
+      width: clamp(38px, 10vw, 58px);
+      height: clamp(38px, 10vw, 58px);
+      border-radius: 50%;
+      box-shadow: 0 12px 24px rgba(0,0,0,.2), inset 0 -7px 0 rgba(0,0,0,.14);
+      z-index: 4;
+    }
+    .good { background: #2eff8b; }
+    .bad { background: #ff3f62; }
+    .bonus { background: #ffe65b; }
+    .message {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(88vw, 430px);
+      padding: 18px;
+      text-align: center;
+      border-radius: 18px;
+      background: rgba(15,31,72,.78);
+      backdrop-filter: blur(12px);
+      font-size: clamp(17px, 4vw, 22px);
+      font-weight: 800;
+      line-height: 1.35;
+      z-index: 10;
+    }
+    .controls { grid-template-columns: 1fr 1fr; }
+    .speeds {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
     }
-
     button {
-
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 10px;
+      color: #18305f;
+      background: #fff;
+      font-size: clamp(15px, 3.8vw, 20px);
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.16);
+    }
+    button:active { transform: translateY(1px); }
     .speed-btn {
-      padding: 12px 10px;
-      font-size: clamp(13px, 3.2vw, 17px);
-      background: rgba(255,255,255,0.78);
+      padding: 11px 6px;
+      font-size: clamp(13px, 3.1vw, 17px);
+      background: rgba(255,255,255,.78);
     }
-
     .speed-btn.active {
-      background: #ffe65b;
       color: #102655;
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.34), 0 10px 22px rgba(0,0,0,0.16);
+      background: #ffe65b;
+      box-shadow: 0 0 0 3px rgba(255,255,255,.34), 0 10px 22px rgba(0,0,0,.16);
+    }
+    .start {
+      grid-column: 1 / -1;
+      color: #fff;
+      background: #132b5e;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <a href="https://mycathost.cz/minihry" class="back">← Back</a>
+
+  <main class="wrap">
+    <section class="hud">
+      <div class="box">Score: <span id="score">0</span></div>
+      <div class="box">Time: <span id="time">30</span>s</div>
+      <div class="box">Lives: <span id="lives">3</span></div>
+    </section>
+
+    <section class="arena" id="arena">
+      <div class="lane"></div><div class="lane"></div><div class="lane"></div><div class="lane"></div>
+      <div class="player" id="player"></div>
+      <div class="message" id="message">Vyber rychlost a stiskni START. Sbírej zelené a žluté koule, červeným se vyhni.</div>
+    </section>
+
+    <section class="controls">
+      <div class="speeds">
+        <button class="speed-btn active" id="slowBtn" type="button" onclick="setSpeedMode('slow')">SLOW</button>
+        <button class="speed-btn" id="fastBtn" type="button" onclick="setSpeedMode('fast')">FAST</button>
+        <button class="speed-btn" id="insaneBtn" type="button" onclick="setSpeedMode('insane')">INSANE</button>
+      </div>
+      <button type="button" onclick="movePlayer(-1)">↑ UP</button>
+      <button type="button" onclick="movePlayer(1)">↓ DOWN</button>
+      <button class="start" type="button" onclick="startGame()">START</button>
+    </section>
+  </main>
+
+  <script>
+    const arena = document.getElementById('arena');
+    const player = document.getElementById('player');
+    const message = document.getElementById('message');
+    const scoreEl = document.getElementById('score');
+    const timeEl = document.getElementById('time');
+    const livesEl = document.getElementById('lives');
+
+    const modes = {
+      slow: { name: 'Slow', speed: 2.9, gain: 0.08, spawn: 980, minSpawn: 430, rank1: 35, rank2: 70 },
+      fast: { name: 'Fast', speed: 4.0, gain: 0.12, spawn: 860, minSpawn: 350, rank1: 45, rank2: 90 },
+      insane: { name: 'Insane', speed: 5.3, gain: 0.17, spawn: 760, minSpawn: 290, rank1: 60, rank2: 120 }
+    };
+
+    let modeName = 'slow', lane = 1, score = 0, lives = 3, timeLeft = 30;
+    let running = false, speed = modes.slow.speed, lastSpawn = 0, frameId = 0, timerId = 0, orbs = [];
+
+    function setSpeedMode(name) {
+      if (running) return;
+      modeName = name;
+      document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(name + 'Btn').classList.add('active');
     }
 
-    .start {
-  <section class="controls">
-    <div class="speed-select" aria-label="Vyber rychlost hry">
-      <button class="speed-btn active" id="speed-slow" type="button" onclick="selectSpeed('slow')">SLOW</button>
-      <button class="speed-btn" id="speed-fast" type="button" onclick="selectSpeed('fast')">FAST</button>
-      <button class="speed-btn" id="speed-insane" type="button" onclick="selectSpeed('insane')">INSANE</button>
-    </div>
-    <button type="button" onclick="moveRunner(-1)">↑ UP</button>
-let speed = 2.7;
-let selectedSpeed = 'slow';
-let lastSpawn = 0;
+    function laneTop(targetLane, elementHeight) {
+      const laneHeight = arena.clientHeight / 4;
+      return targetLane * laneHeight + (laneHeight - elementHeight) / 2;
+    }
 
-const speedModes = {
-  slow: {
-    label: 'Slow',
-    startSpeed: 2.7,
-    speedGain: 0.08,
-    spawnBase: 1040,
-    spawnMin: 440,
-    ranks: { good: 35, master: 70 }
-  },
-  fast: {
-    label: 'Fast',
-    startSpeed: 3.8,
-    speedGain: 0.12,
-    spawnBase: 900,
-    spawnMin: 360,
-    ranks: { good: 45, master: 90 }
-  },
-  insane: {
-    label: 'Insane',
-    startSpeed: 5.1,
-    speedGain: 0.17,
-    spawnBase: 780,
-    spawnMin: 300,
-    ranks: { good: 60, master: 120 }
-  }
-};
+    function updatePlayerPosition() {
+      player.style.top = laneTop(lane, player.offsetHeight) + 'px';
+    }
 
-function setRunnerPosition() {
+    function movePlayer(direction) {
+      lane = Math.max(0, Math.min(3, lane + direction));
+      updatePlayerPosition();
+    }
 
-function selectSpeed(mode) {
-  if (running || !speedModes[mode]) return;
+    function clearGameObjects() {
+      cancelAnimationFrame(frameId);
+      clearInterval(timerId);
+      orbs.forEach(orb => orb.el.remove());
+      orbs = [];
+      lastSpawn = 0;
+    }
 
-  selectedSpeed = mode;
-  document.querySelectorAll('.speed-btn').forEach(button => button.classList.remove('active'));
-  document.getElementById('speed-' + mode).classList.add('active');
-}
+    function startGame() {
+      clearGameObjects();
+      const mode = modes[modeName];
+      lane = 1; score = 0; lives = 3; timeLeft = 30; speed = mode.speed; running = true;
+      scoreEl.textContent = score;
+      livesEl.textContent = lives;
+      timeEl.textContent = timeLeft;
+      message.classList.add('hidden');
+      updatePlayerPosition();
 
-function resetGame() {
-  resetGame();
-  const mode = speedModes[selectedSpeed];
-  lane = 1;
-  timeLeft = 30;
-  speed = 2.7;
-  speed = mode.startSpeed;
-  running = true;
-    timeEl.innerText = timeLeft;
-    speed += 0.08;
-    speed += mode.speedGain;
-    if (timeLeft <= 0) endGame();
-  if (!running) return;
-  const mode = speedModes[selectedSpeed];
+      timerId = setInterval(() => {
+        timeLeft--;
+        timeEl.textContent = timeLeft;
+        speed += mode.gain;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
 
-  if (!lastSpawn || now - lastSpawn > Math.max(430, 1000 - score * 5)) {
-  if (!lastSpawn || now - lastSpawn > Math.max(mode.spawnMin, mode.spawnBase - score * 5)) {
-    spawnOrb(now);
+      frameId = requestAnimationFrame(gameLoop);
+    }
 
-  const mode = speedModes[selectedSpeed];
-  let rank = 'Dobrý pokus';
-  if (score >= 18) rank = 'Rychly sberac';
-  if (score >= 32) rank = 'Color master';
-  if (score >= mode.ranks.good) rank = 'Rychly sberac';
-  if (score >= mode.ranks.master) rank = 'Color master';
+    function spawnOrb(now) {
+      const typeList = ['good', 'good', 'good', 'bad', 'bonus'];
+      const type = typeList[Math.floor(Math.random() * typeList.length)];
+      const orbLane = Math.floor(Math.random() * 4);
+      const el = document.createElement('div');
+      el.className = 'orb ' + type;
+      arena.appendChild(el);
 
-  message.classList.remove('hidden');
-  message.innerText = 'Konec hry! Score: ' + score + ' | Rank: ' + rank;
-  message.innerText = 'Konec hry! Speed: ' + mode.label + ' | Score: ' + score + ' | Rank: ' + rank;
-}
+      const size = el.offsetWidth;
+      const orb = { el, type, x: arena.clientWidth + size, y: laneTop(orbLane, size) };
+      el.style.left = orb.x + 'px';
+      el.style.top = orb.y + 'px';
+      orbs.push(orb);
+      lastSpawn = now;
+    }
+
+    function isTouching(a, b) {
+      return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    }
+
+    function gameLoop(now) {
+      if (!running) return;
+      const mode = modes[modeName];
+      const spawnDelay = Math.max(mode.minSpawn, mode.spawn - score * 5);
+
+      if (!lastSpawn || now - lastSpawn > spawnDelay) spawnOrb(now);
+
+      const playerRect = player.getBoundingClientRect();
+      const nextOrbs = [];
+
+      orbs.forEach(orb => {
+        orb.x -= speed;
+        orb.el.style.left = orb.x + 'px';
+
+        if (isTouching(playerRect, orb.el.getBoundingClientRect())) {
+          collectOrb(orb.type);
+          orb.el.remove();
+          return;
+        }
+
+        if (orb.x < -80) {
+          if (orb.type === 'good') loseLife();
+          orb.el.remove();
+          return;
+        }
+
+        nextOrbs.push(orb);
+      });
+
+      orbs = nextOrbs;
+      frameId = requestAnimationFrame(gameLoop);
+    }
+
+    function collectOrb(type) {
+      if (type === 'bad') {
+        loseLife();
+        return;
+      }
+      score += type === 'bonus' ? 5 : 1;
+      scoreEl.textContent = score;
+    }
+
+    function loseLife() {
+      if (!running) return;
+      lives--;
+      livesEl.textContent = lives;
+      arena.animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translateX(-7px)' }, { transform: 'translateX(7px)' }, { transform: 'translateX(0)' }],
+        { duration: 180 }
+      );
+      if (lives <= 0) endGame();
+    }
+
+    function endGame() {
+      if (!running) return;
+      running = false;
+      clearGameObjects();
+
+      const mode = modes[modeName];
+      let rank = 'Dobrý pokus';
+      if (score >= mode.rank1) rank = 'Rychlý sběrač';
+      if (score >= mode.rank2) rank = 'Color master';
+
+      message.classList.remove('hidden');
+      message.textContent = 'Konec hry! Speed: ' + mode.name + ' | Score: ' + score + ' | Rank: ' + rank;
+    }
+
+    window.addEventListener('resize', updatePlayerPosition);
+    window.addEventListener('keydown', event => {
+      if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') movePlayer(-1);
+      if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') movePlayer(1);
+      if (event.key === 'Enter' || event.key === ' ') startGame();
+    });
+
+    updatePlayerPosition();
+  </script>
+</body>
+</html>
