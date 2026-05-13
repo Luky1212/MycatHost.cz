@@ -4,17 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Reaction Hunter</title>
+
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; }
+
     body {
       margin: 0;
-      height: 100dvh; /* mobile safe viewport */
+      height: 100dvh;
       overflow: hidden;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #a8d8ff, #d0ecff);
       color: #fff;
-      touch-action: manipulation; /* faster taps */
+      touch-action: manipulation;
     }
 
     .back {
@@ -25,7 +27,7 @@
       color: #ffffff;
       font-weight: bold;
       z-index: 10;
-      padding: 10px 14px; /* larger tap target */
+      padding: 10px 14px;
       background: rgba(0,0,0,0.2);
       border-radius: 10px;
       backdrop-filter: blur(6px);
@@ -38,6 +40,7 @@
       opacity: 0.6;
       pointer-events: none;
     }
+
     .bg1 { width: 45vw; height: 45vw; background: pink; top: 8%; left: 8%; }
     .bg2 { width: 30vw; height: 30vw; background: yellow; top: 65%; left: 15%; }
     .bg3 { width: 38vw; height: 38vw; background: lightgreen; top: 25%; left: 65%; }
@@ -47,7 +50,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: calc(12px + env(safe-area-inset-bottom)); /* move down for thumbs */
+      bottom: calc(12px + env(safe-area-inset-bottom));
       text-align: center;
       z-index: 5;
       width: min(92vw, 520px);
@@ -79,7 +82,6 @@
       border-radius: 50%;
       cursor: pointer;
       animation: pop 0.15s ease-out;
-      will-change: transform, opacity;
     }
 
     @keyframes pop {
@@ -89,7 +91,7 @@
 
     .start-btn {
       margin-top: 10px;
-      padding: 14px 22px; /* bigger for touch */
+      padding: 14px 22px;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -127,7 +129,7 @@ let gameRunning = false;
 let timeouts = [];
 let gameTimer = null;
 let activeTargets = 0;
-const MAX_TARGETS = 2; // limit for mobile clarity
+const MAX_TARGETS = 2;
 
 function resetGame() {
   timeouts.forEach(t => clearTimeout(t));
@@ -157,7 +159,7 @@ function startGame() {
 function spawnLoop() {
   if (!gameRunning) return;
 
-  let delay = Math.random() * 1200 + 400; // a bit faster but capped by MAX_TARGETS
+  let delay = Math.random() * 1200 + 400;
   let t = setTimeout(() => {
     if (activeTargets < MAX_TARGETS) spawnTarget();
     spawnLoop();
@@ -170,10 +172,16 @@ function spawnTarget() {
   const area = document.getElementById('area');
   const target = document.createElement('div');
 
-  let size = Math.random() * 70 + 55; // bigger for touch (55–125px)
+  let size = Math.random() * 70 + 55;
   const pad = 8;
+
+  // 🔥 KLÍČOVÁ OPRAVA
+  const hud = document.querySelector('.hud');
+  const hudRect = hud.getBoundingClientRect();
+  const maxY = window.innerHeight - hudRect.height - 20;
+
   let x = Math.random() * (window.innerWidth - size - pad*2) + pad;
-  let y = Math.random() * (window.innerHeight - size - pad*2) + pad;
+  let y = Math.random() * (maxY - size - pad) + pad;
 
   target.classList.add('target');
   target.style.width = size + 'px';
@@ -205,8 +213,10 @@ function spawnTarget() {
     activeTargets = Math.max(0, activeTargets - 1);
   };
 
-  // pointer events = unify mouse + touch
-  target.addEventListener('pointerdown', (e) => { e.preventDefault(); hit(); }, {passive:false});
+  target.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    hit();
+  }, { passive: false });
 
   area.appendChild(target);
 
